@@ -1,30 +1,9 @@
-# Tugon
-<b>GitHUB Game Off 2021: BUG Entry</b><br/>
-https://itch.io/jam/game-off-2021<br/>
-<b>ITCH.IO Project Page</b><br/>
-https://masarapmabuhay.itch.io/tugon
-
-<img src="https://github.com/masarapmabuhay/tugon/blob/main/screenshots/submitted/tugonCoverPage.jpg" width="60%"><br/>
-<b>
-TUGON = "RESPONSE"<br/>
+# Usbong Tugon (Forked Branch)
+<b>Objectives:</b><br/> 
+1. Continue to increase know-how to build Electronic Book Readers with Human-Computer Interactivity<br/>
+2. Reuse component parts<br/>
 <br/>
-MISSION:<br/>
-<br/>
-WORK TO SAVE THE TOWN!<br/>
-<br/>
-DESTROY "IPIS" BUGS X180 IN 5MINS.<br/>
-<br/>
-PRESS ONLY THE "K" BUTTON.<br/>
-<br/>
-<img src="https://github.com/masarapmabuhay/tugon/blob/main/screenshots/submitted/tugonInAction.jpg" width="60%"><br/>
-<br/>
-KEYWORDS: ACTION, RHYTHM<br/>
-<br/>
-<img src="https://github.com/masarapmabuhay/tugon/blob/main/screenshots/submitted/tugonMissionCompleteChallengeBeatBestHitAccuracyAndElapsedTimeV20211130T0840.jpg" width="60%"><br/>
-<br/>
-CHALLENGE: BEAT BEST HIT ACCURACY & ELAPSED TIME<br/>
-<br/>
-</b>
+<b>Reference:</b> https://github.com/masarapmabuhay/tugon
 
 ## 1. Application Execution
 --> verified: with [LUBUNTU Operating System (version: LTS 20.04)](https://lubuntu.me/)<br/>
