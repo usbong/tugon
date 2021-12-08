@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211129
+ * @date updated: 20211208
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -28,6 +28,23 @@
  * last accessed: 20211111
  *
  */
+ 
+ //added by Mike, 20211208
+ //TO-DO: -reverify: auto-update: image tile size based on screen width and height
+ //auto-set if wide screen? as with SONY television screen?
+
+ //TO-DO: -reverify: auto-record actions as image files with screen width and height measurements
+ //as with Super Family Computer Mini?
+
+ //TO-DO: -reverify: send multiple image files to a networked computer to execute exact positions in 2D
+ //as with New Super Mario Bros. (Nintendo DS)?
+
+ //TO-DO: -reverify: instructions to be electronic book reader with computer interactivity
+ //as with Dragon Quest VI? as with G'NG?
+ 
+ //TO-DO: -reverify: Pagong with OpenGL 3D graphics instructions
+ //as with Crash Bandicoot 1? as with Super Mario 3D Land?
+	 
 
 /**************************
  * Includes
@@ -554,44 +571,10 @@ void init() {
 	}		
 	myKeysDown[KEY_D] = TRUE;  	
 
-/*myLevelWeakBeat
-	//edited by Mike, 20211119	
-	for (int iCount=0; iCount<MAX_IPIS; iCount++) {
-		myIpis[iCount] = new Ipis(mySDLRenderer,fGridSquareWidth*5+fGridSquareWidth*iCount,fGridSquareHeight*3,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
-		myIpis[iCount]->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);
-	}
-*/
-		//added by Mike, 20211119
-		//TO-DO: -add: in a reusable function		
-//		int myLevelWeakBeat[MAX_IPIS] = {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1};
-		//start from tile immediately after left corner; clockwise
-
-/*	//edited by Mike, 20211120
 		int myLevelWeakBeat[MAX_IPIS] = {1,0,1,0,1,0, //RIGHT
 																		 1,1,0,1,1, //DOWN; corner included
 																		 0,1,1,0,1,1, //LEFT
 																		 0,1,1,1,0}; //UP; corner included
-*/
-		int myLevelWeakBeat[MAX_IPIS] = {1,0,1,0,1,0, //RIGHT
-																		 1,1,0,1,1, //DOWN; corner included
-																		 0,1,1,0,1,1, //LEFT
-																		 0,1,1,1,0}; //UP; corner included
-
-/*
-		for (int iCount=0; iCount<MAX_IPIS; iCount++) {
-			if (iCount%2==0) {
-				myLevelWeakBeat[iCount]=0;
-			}
-			else {
-				myLevelWeakBeat[iCount]=1;
-			}
-		}
-*/
-//		printf(">>myLevelWeakBeat[21]: %i\n",myLevelWeakBeat[21]); //max
-
-//		printf(">>myLevelWeakBeat[1]: %i\n",myLevelWeakBeat[1]);		
-		
-		//TO-DO: -update: this
 
 		int iIpisCount=0;
 		
@@ -1809,11 +1792,11 @@ void draw(int x, int y)
 	SDL_RenderClear(mySDLRenderer);
 				
 	//added by Mike, 20211113
-	drawLevel();
+//	drawLevel();
 
 	//added by Mike, 20211111
 	//note: excess drawn pixel due to drawGrid()...
-//	drawGrid();
+	drawGrid();
 
 	//added by Mike, 20211117; edited by Mike, 20211118
 //	myIpis[0]->draw();
@@ -1832,29 +1815,7 @@ void draw(int x, int y)
 	//-----
 		//added by Mike, 20211129
 		drawDestroyedIpisCountAsSet(0);
-/*	//removed by Mike, 20211129
-  	//note: 3 digits
-  	if (iCountIpisDestroyed==0) {
-			drawDestroyedIpisCount(0,0,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(0,1,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(0,2,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-  	}
-  	else if (iCountIpisDestroyed<10) {
-			drawDestroyedIpisCount(0,0,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(0,1,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(iCountIpisDestroyed,2,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-  	}
-  	else if (iCountIpisDestroyed<100) {
-			drawDestroyedIpisCount(0,0,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(iCountIpisDestroyed/10,1,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(iCountIpisDestroyed%10,2,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-  	}
-  	else {
- 			drawDestroyedIpisCount(iCountIpisDestroyed/100,0,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount((iCountIpisDestroyed/10)%10,1,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-			drawDestroyedIpisCount(iCountIpisDestroyed%10,2,myWindowWidthAsPixel-3*fGridSquareWidth,0*fGridSquareHeight);
-  	}
-*/
+
   	
 	//-----
 
@@ -1891,39 +1852,7 @@ void draw(int x, int y)
 	//-----
 
 	//added by Mike, 20211123
-/* //edited by Mike, 20211129	
-		if (iSecondCount<10) {
-			drawTimeCount(0,0,3*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-			drawTimeCount(iSecondCount,1,3*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-		}
-		else {
-			drawTimeCount(iSecondCount/10,0,3*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-			drawTimeCount(iSecondCount%10,1,3*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-		}
-		
-		drawColon(1,2*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-
-		if (iMinuteCount<10) {
-			drawTimeCount(0,1,1*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-			drawTimeCount(iMinuteCount,0,2*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-		}
-		else {
-			drawTimeCount(iMinuteCount/10,1,1*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-			drawTimeCount(iMinuteCount%10,2,1*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-		}
-
-		drawColon(0,1*fGridSquareWidth,myWindowHeightAsPixel-1*fGridSquareHeight);
-
-		if (iHourCount<10) {
-			drawTimeCount(0,0,0,myWindowHeightAsPixel-1*fGridSquareHeight);
-			drawTimeCount(iHourCount,1,0,myWindowHeightAsPixel-1*fGridSquareHeight);
-		}
-		else {
-			drawTimeCount(iHourCount/10,0,0,myWindowHeightAsPixel-1*fGridSquareHeight);
-			drawTimeCount(iHourCount%10,1,0,myWindowHeightAsPixel-1*fGridSquareHeight);
-		}
-*/
-		drawTimeCountAsSet(0);
+	drawTimeCountAsSet(0);
 }
 
 void update() {
