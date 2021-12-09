@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211129
+ * @date updated: 20211209
  * @website address: http://www.usbong.ph
  *
  */
@@ -134,9 +134,13 @@ void Ipis::drawIpis() {
 	
   	DestR.x = getXPos();
   	DestR.y = getYPos();
-  	
+
+/* //edited by Mike, 20211209  	
   	DestR.w = iMyWidthAsPixel;
   	DestR.h = iMyHeightAsPixel;
+*/
+  	DestR.w = fGridSquareWidth;
+  	DestR.h = fGridSquareHeight;
 	
   	//note: SDL color max 255; GIMP color max 100
 		//SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white

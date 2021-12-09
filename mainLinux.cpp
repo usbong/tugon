@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211208
+ * @date updated: 20211209
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -29,9 +29,11 @@
  *
  */
  
- //added by Mike, 20211208
- //TO-DO: -reverify: auto-update: image tile size based on screen width and height
- //auto-set if wide screen? as with SONY television screen?
+//added by Mike, 20211208; edited by Mike, 20211209
+//note: auto-resize of image tiles OK without adding OpenGL library based on screen width and height;
+//reminder: SONY television screen (wide screen); SUPER R-TYPE
+//TO-DO: -reverify: level tile position computation instruction
+
 
  //TO-DO: -reverify: auto-record actions as image files with screen width and height measurements
  //as with Super Family Computer Mini?
@@ -505,13 +507,20 @@ void init() {
   fGridSquareWidth = 64;
   fGridSquareHeight = 64;
 */  
+
   fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;
-  fGridSquareWidth = fGridSquareHeight;
+  //edited by Mike, 20211209
+//  fGridSquareWidth = fGridSquareHeight;
+	//auto-resize width
+  fGridSquareWidth = (myWindowWidthAsPixel)/iColumnCountMax;
   
   //wide screen; portrait mode;
   //example: 1366 x 768; width x height; 
   //iBaseOffsetWidth: 299; fGridSquareWidth: 76.000000
-  iBaseOffsetWidth=(myWindowWidthAsPixel-myWindowHeightAsPixel)/2;
+	//edited by Mike, 20211209
+//  iBaseOffsetWidth=(myWindowWidthAsPixel-myWindowHeightAsPixel)/2;
+  iBaseOffsetWidth=0;
+
   //TO-DO: -add: this  
   iBaseOffsetHeight=0;
 
@@ -529,6 +538,7 @@ void init() {
   	//edited by Mike, 20211126
   	iNonWideScreenOffsetWidth=iBaseOffsetWidth*2/fGridSquareWidth;//-1;
   }
+
   
   iCurrentOffsetWidth=iBaseOffsetWidth;
   iCurrentOffsetHeight=iBaseOffsetHeight;
@@ -646,6 +656,8 @@ void init() {
 		}
 
 	myUnit = new Unit(mySDLRenderer,fGridSquareWidth*5,fGridSquareHeight*3,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
+	//added by Mike, 20211209
+	myUnit->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
 
 	//added by Mike, 20211120
 	myArrayOfInputStringsBeatSound = (char **)malloc(2 * sizeof(char *)); //for only 1 item
@@ -916,14 +928,20 @@ void drawDestroyedIpisCount(int iDigitValue,int iDigitFromLeft, int x, int y, in
 
  //edited by Mike, 20211129
   if (type==0) {
-  	DestR.x = x+iTileWidth*iDigitFromLeft;
+		//edited by Mike, 20211209
+//  	DestR.x = x+iTileWidth*iDigitFromLeft;
+  	DestR.x = x+fGridSquareWidth*iDigitFromLeft;
+
   	DestR.y = y;
 	
   	DestR.w = fGridSquareWidth;
   	DestR.h = fGridSquareHeight;
 	}
 	else {
-  	DestR.x = x+iTileWidth/2*iDigitFromLeft;
+		//edited by Mike, 20211209
+//  	DestR.x = x+iTileWidth/2*iDigitFromLeft;
+  	DestR.x = x+fGridSquareWidth/2*iDigitFromLeft;
+
   	DestR.y = y;
 	
   	DestR.w = fGridSquareWidth/2;
@@ -1792,11 +1810,11 @@ void draw(int x, int y)
 	SDL_RenderClear(mySDLRenderer);
 				
 	//added by Mike, 20211113
-//	drawLevel();
+	drawLevel();
 
 	//added by Mike, 20211111
 	//note: excess drawn pixel due to drawGrid()...
-	drawGrid();
+//	drawGrid();
 
 	//added by Mike, 20211117; edited by Mike, 20211118
 //	myIpis[0]->draw();
@@ -2116,6 +2134,7 @@ int main(int argc, char *argv[])
 	iPilotX=fGridSquareWidth*5;
 	iPilotY=fGridSquareHeight*3;
 */
+
 	iPilotX=fGridSquareWidth*1+iCurrentOffsetWidth;
 	iPilotY=fGridSquareHeight*3;
 	
