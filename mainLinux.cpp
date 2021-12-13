@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211209
+ * @date updated: 20211213
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -147,6 +147,10 @@ bool bIsExecutingDestroyBug;
 
 int iStepX;
 int iStepY;
+
+//added by Mike, 20211213
+int iStepXMax;
+int iStepYMax;
 
 //added by Mike, 20211121
 int iCountIpisDestroyed;
@@ -549,9 +553,20 @@ void init() {
 	
 	//added by Mike, 20211119
 	//TO-DO: -update: this based on Level
-	//added by Mike, 20211115
+	//added by Mike, 20211115; edited by Mike, 20211213
+/*
 	iStepX=1; //2;//1;
 	iStepY=1; //2;//1;
+*/
+	//note:
+	iRowCountMax=10;
+  iColumnCountMax=iRowCountMax;//18; 
+	
+	iStepXMax=2*(2);
+	iStepYMax=2*(2);
+
+	iStepX=iStepXMax/2;
+	iStepY=iStepYMax/2;
 
 	iCountIpisDestroyed=0;
 	iCountMissedToHitIpis=0; //added by Mike, 20211122
@@ -1899,8 +1914,14 @@ void update() {
 //				if (iCount==IPIS_START_INDEX) {
 				if (iCountIpisDestroyed>=14) {
 					if ((myKeysDown[KEY_D]) || (myKeysDown[KEY_A])) {
+/*
+//edited by Mike, 20211213
 						iStepX=2;
 						iStepY=2;	
+*/
+						iStepX=iStepXMax;
+						iStepY=iStepXMax;	
+						
 					}
 				}
 				
