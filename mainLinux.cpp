@@ -47,6 +47,10 @@
  //TO-DO: -reverify: Pagong with OpenGL 3D graphics instructions
  //as with Crash Bandicoot 1? as with Super Mario 3D Land?
 	 
+//added by Mike, 20211213
+//TO-DO: -add: deallocate memory instructions when executing quit, et cetera
+//note: LINUX auto-deallocates when executing quit
+
 
 /**************************
  * Includes
@@ -67,6 +71,9 @@
 #include <time.h>
 #include <unistd.h>
 #include <iostream>
+
+//added by Mike, 20211213
+#include "Font.h"
 
 #include "Ipis.h"
 #include "Unit.h"
@@ -106,6 +113,9 @@
 
 //added by Mike, 20211121
 #define IPIS_START_INDEX 0
+
+//added by Mike, 20211213
+class Font; 
 
 //added by Mike, 20211117
 class Ipis; 
@@ -185,6 +195,10 @@ Ipis *myIpis[MAX_IPIS];
 
 //added by Mike, 20211117
 Unit *myUnit;
+
+//added by Mike, 20211113
+Font *myFont;
+
 
 /*
 //added by Mike, 20211119
@@ -674,6 +688,10 @@ void init() {
 	//added by Mike, 20211209
 	myUnit->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
 
+	//added by Mike, 20211213
+	myFont = new Font(mySDLRenderer,0,0,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
+	myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
+	
 	//added by Mike, 20211120
 	myArrayOfInputStringsBeatSound = (char **)malloc(2 * sizeof(char *)); //for only 1 item
  	myArrayOfInputStringsBeatSound [0] = (char *)"./sdlwav"; //add this, albeit NOT used; arg count 1 as filename used
@@ -1886,6 +1904,10 @@ void draw(int x, int y)
 
 	//added by Mike, 20211123
 	drawTimeCountAsSet(0);
+	
+	//added by Mike, 20211213
+	myFont->draw_string(0,0,0,(char*)"HALIMBAWA"); //note: all capital letters; no small letters yet
+	
 }
 
 void update() {
