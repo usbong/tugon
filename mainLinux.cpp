@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211213
+ * @date updated: 20211214
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -75,6 +75,10 @@
 //added by Mike, 20211213
 #include "Font.h"
 
+//added by Mike, 20211214
+#include "Text.h"
+
+
 #include "Ipis.h"
 #include "Unit.h"
 
@@ -116,6 +120,8 @@
 
 //added by Mike, 20211213
 class Font; 
+//added by Mike, 20211214
+class Text; 
 
 //added by Mike, 20211117
 class Ipis; 
@@ -198,6 +204,9 @@ Unit *myUnit;
 
 //added by Mike, 20211113
 Font *myFont;
+
+//added by Mike, 20211114
+Text *myText;
 
 
 /*
@@ -691,6 +700,11 @@ void init() {
 	//added by Mike, 20211213
 	myFont = new Font(mySDLRenderer,0,0,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
 	myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
+
+	//added by Mike, 20211214
+	myText = new Text(mySDLRenderer,0,0,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
+	myText->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
+
 	
 	//added by Mike, 20211120
 	myArrayOfInputStringsBeatSound = (char **)malloc(2 * sizeof(char *)); //for only 1 item
@@ -1907,6 +1921,9 @@ void draw(int x, int y)
 	
 	//added by Mike, 20211213
 	myFont->draw_string(0,0,0,(char*)"HALIMBAWA"); //note: all capital letters; no small letters yet
+
+	//added by Mike, 20211214
+	myText->draw(); //note: all capital letters; no small letters yet	
 	
 }
 

@@ -108,7 +108,7 @@ void Font::draw_string(int x, int y, int z, char *string)
     
     while (string[0] != 0)
     {
-        printf(">>string's c: %c\n",string[0]);
+//        printf(">>string's c: %c\n",string[0]);
         
         draw_char(x, y, z, string[0]);
                 
@@ -131,8 +131,7 @@ void Font::draw_char(int xInput, int yInput, int zInput, char c) {
     if (c < ' ' || c > '~')
         return;
 
-    printf(">>start c: %i\n",c); 
-
+//    printf(">>start c: %i\n",c); 
     
     //subtract 32, since the first character in the font texture
     //is the space (ascii value 32)
@@ -143,9 +142,11 @@ void Font::draw_char(int xInput, int yInput, int zInput, char c) {
     int tx = (c % 12 * iMyWidthAsPixel); //0.078125f;   
     int ty = (c / 12 * iMyHeightAsPixel); //0.125f);
 
+/*
        	printf(">>c: %i\n",c); 
         printf(">>tx: %i\n",tx);    
         printf(">>ty: %i\n",ty);
+*/
   		    	
   	SrcR.x = 0+tx;
   	SrcR.y = 0+ty;
