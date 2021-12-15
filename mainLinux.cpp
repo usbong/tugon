@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211214
+ * @date updated: 20211215
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -362,11 +362,16 @@ void keyDown(SDL_KeyboardEvent *event)
 			myKeysDown[KEY_D] = TRUE;					
 		}
 */		
+
     //note: one button press only; beat, cadence; skipping stone?
     
     //can be pressed simultaneously with directional button
     if (event->keysym.scancode == SDL_SCANCODE_K)
     {
+    		//added by Mike, 20211215
+				myText->keyDown(KEY_K);
+    
+    
     		//edited by Mike, 20211115
         //myKeysDown[KEY_K] = TRUE;
 
@@ -427,13 +432,17 @@ void keyUp(SDL_KeyboardEvent *event)
     	//added by Mike, 20210905
     	if (event->keysym.scancode == SDL_SCANCODE_K)
     	{
+    			//added by Mike, 20211215
+					myText->keyUp(KEY_K);
+    		
+    	
         	myKeysDown[KEY_K] = FALSE;
         	bIsExecutingDestroyBug=false;
         	        	
         	//added by Mike, 20211126
-			if (bIsInTitleScreen) {
-				bIsInTitleScreen=false;
-			}								
+					if (bIsInTitleScreen) {
+						bIsInTitleScreen=false;
+					}								
     	}        
 	}
 }

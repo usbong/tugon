@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20211213
+ * @date updated: 20211215
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -111,8 +111,10 @@ void Font::draw_string(int x, int y, int z, char *string)
 //        printf(">>string's c: %c\n",string[0]);
         
         draw_char(x, y, z, string[0]);
-                
-        x += fGridSquareWidth/3; //iMyWidthAsPixel; //0.035f;
+  			
+  			//edited by Mike, 20211215              
+//        x += fGridSquareWidth/3; //iMyWidthAsPixel; //0.035f;
+        x += fGridSquareWidth/3/1.5;
 
         //go to the next character in the string
         string++;
@@ -153,19 +155,25 @@ void Font::draw_char(int xInput, int yInput, int zInput, char c) {
 	
   	SrcR.w = iMyWidthAsPixel; 
   	SrcR.h = iMyHeightAsPixel; 
-	
+
+	 //edited by Mike, 20211215	
   	DestR.x = xInput; //getXPos();
-  	DestR.y = yInput; //getYPos();
-  	
-/* //edited by Mike, 20211209  	
-  	DestR.w = iMyWidthAsPixel;
-  	DestR.h = iMyHeightAsPixel;
-*/
-  	DestR.w = fGridSquareWidth/3;
-  	DestR.h = fGridSquareHeight/2;	
+  	DestR.y = yInput; //getYPos();  	
+  	DestR.w = fGridSquareWidth/3/1.5;
+  	DestR.h = fGridSquareHeight/2/1.5;	
 	
   	//note: SDL color max 255; GIMP color max 100
-//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white
-		
+		//SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
 		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
+
+		//-----
+		//increase font thickness
+  	DestR.x = xInput-2;
+  	DestR.y = yInput-2;
+  	DestR.w = fGridSquareWidth/3/1.5+2;
+  	DestR.h = fGridSquareHeight/2/1.5+2;	
+	
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
+		//-----
+
 }

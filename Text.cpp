@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211214
+ * @date updated: 20211215
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -86,15 +86,29 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 	
 		fMyWindowWidth=windowWidth;
 		fMyWindowHeight=windowHeight;
+
+		//added by Mike, 20211215
+  	int iRowCountMax=10;
+  	int iColumnCountMax=iRowCountMax;//18; 
+		//auto-resize width
+  	fGridSquareHeight = (windowWidth)/iRowCountMax;
+  	fGridSquareWidth = (windowWidth)/iColumnCountMax;
 				    	   
   	iCountAnimationFrame=0;
 //  	iCurrentKeyInput=2; //start: face RIGHT
-	
-  	mySDLRenderer = mySDLRendererInput;
-  
-  	texture = loadTexture((char*)"textures/textBackground.png");	
 
-    readInputText((char*)"inputHalimbawa.txt");											
+		bHasReachedEndOfTextMessage=false;
+		idrawPressNextSymbolCount=0;
+			
+  	mySDLRenderer = mySDLRendererInput;
+
+		//added by Mike, 20211215
+		myFont = new Font(mySDLRenderer,0,0,0,windowWidth,windowHeight);
+		myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
+  
+  	texture = loadTexture((char*)"textures/text.png");	
+
+    readInputText((char*)"inputHalimbawa.txt");							
 }
 
 Text::~Text()
@@ -103,6 +117,41 @@ Text::~Text()
 
 void Text::drawPressNextSymbol()
 {
+		int iTileWidth=16;
+		int iTileHeight=16;
+
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0;
+  	SrcR.y = 0+4*iTileHeight;
+	
+  	SrcR.w = iTileWidth; //iMyWidthAsPixel; 
+  	SrcR.h = iTileHeight; //iMyHeightAsPixel; 
+		
+  	DestR.x = 0+fMyWindowWidth/2; //getXPos();
+  	DestR.y = fMyWindowHeight-iTileHeight*2;//getYPos();
+
+/*
+  	DestR.x = 0; 
+  	DestR.y = 0;
+*/
+  	
+/* //edited by Mike, 20211209  	
+  	DestR.w = iMyWidthAsPixel;
+  	DestR.h = iMyHeightAsPixel;
+*/
+		//edited by Mike, 20211215
+//  	DestR.w = fMyWindowWidth-fMyWindowWidth/4/2*2; //fGridSquareWidth;
+  	DestR.w = fGridSquareWidth/3;
+  	DestR.h = fGridSquareHeight/2;
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white
+		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);    	
 }
 
 void Text::drawTextBackgroundWithTexture()
@@ -118,14 +167,20 @@ void Text::drawTextBackgroundWithTexture()
   	SrcR.w = iMyWidthAsPixel; 
   	SrcR.h = iMyHeightAsPixel; 
 	
-  	DestR.x = 0+fMyWindowWidth/4/2; //getXPos();
+		//edited by Mike, 20211215
+//  	DestR.x = 0+fMyWindowWidth/4/2; //getXPos();
+  	DestR.x = 0+fMyWindowWidth/6/2; //getXPos();
+
   	DestR.y = fMyWindowHeight-fMyWindowHeight/4;//getYPos();
   	
 /* //edited by Mike, 20211209  	
   	DestR.w = iMyWidthAsPixel;
   	DestR.h = iMyHeightAsPixel;
 */
-  	DestR.w = fMyWindowWidth-fMyWindowWidth/4/2*2; //fGridSquareWidth;
+		//edited by Mike, 20211215
+//  	DestR.w = fMyWindowWidth-fMyWindowWidth/4/2*2; //fGridSquareWidth;
+  	DestR.w = fMyWindowWidth-fMyWindowWidth/6; //fGridSquareWidth;
+
   	DestR.h = fMyWindowHeight/4; //fGridSquareHeight;	
 	
   	//note: SDL color max 255; GIMP color max 100
@@ -142,26 +197,25 @@ void Text::drawText()
             return;
         }
     }		
-/*
-		//edited by Mike, 20211004        
-    //openGLDrawTexture(myXPos, myYPos, myWidth, myHeight);
-    openGLDrawTexture(myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos), 
-    									myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos), 
-    									myUsbongUtils->autoConvertFromPixelToVertexGridTileWidth(myWidth), 
-    									myUsbongUtils->autoConvertFromPixelToVertexGridTileHeight(myHeight));
 
+		drawTextBackgroundWithTexture();
 
-
-*/    
-
-			drawTextBackgroundWithTexture();
-
-//   	drawTextFontAsQuadWithTexture(0, 0);
-
+   	drawTextWithFontTexture(0, 0);
 
 		if (isAtMaxTextCharRow) {		
+/*  
         if ((idrawPressNextSymbolCount)%2==0) {
             drawPressNextSymbol();
+        }
+        idrawPressNextSymbolCount=idrawPressNextSymbolCount+1;
+*/        
+        if (idrawPressNextSymbolCount<10) {
+            drawPressNextSymbol();
+        }
+        else {
+        	if (idrawPressNextSymbolCount>20) {
+        		idrawPressNextSymbolCount=0;
+        	}
         }
         idrawPressNextSymbolCount=idrawPressNextSymbolCount+1;
     }              	
@@ -184,10 +238,11 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
             tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount]=cCurrentTextContainer[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW][iColumnCount];
   }
   
-//    myFont->draw_string(glIFontTexture, myUsbongUtils->autoConvertFromPixelToVertexPointX(myXPos+fGridSquareWidth), myUsbongUtils->autoConvertFromPixelToVertexPointY(myYPos-fGridSquareHeight*0.2f)-iRowCount*0.1f, 0.0f, tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-		
-		//TO-DO: -update: this
-    myFont->draw_string(x+fGridSquareWidth,y-fGridSquareHeight*0.2f,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+  	//edited by Mike, 20211215
+//    myFont->draw_string(x+fGridSquareWidth,y+fGridSquareHeight/2*iRowCount,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
+    myFont->draw_string(x+fGridSquareWidth,fMyWindowHeight-fMyWindowHeight/4 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
     
   iTextAnimationCountDelay=0;
   
