@@ -98,11 +98,14 @@ public:
     void drawText();    
     void drawTextBackgroundWithTexture();  
     //added by Mike, 20211217     
+		void drawTextBackgroundWithTextureTile(int iType, int x, int y);    
+    
     void drawTextBackgroundWithTexturePrev(); 
     void drawTextBackgroundWithTextureTopLeftCorner(); 
     void drawTextBackgroundWithTextureBottomLeftCorner();
     void drawTextBackgroundWithTextureTopRightCorner();
     void drawTextBackgroundWithTextureBottomRightCorner();
+    void drawTextBackgroundWithTextureTopSide();
     
     void drawTextWithFontTexture(int x, int y);
     void update(float dt);

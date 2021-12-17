@@ -55,6 +55,16 @@
 
 //#include "ModelPool.h"
 
+//added by Mike, 20211217
+#define TEXT_TOP_SIDE_TILE 0
+#define TEXT_BOTTOM_SIDE_TILE 1
+#define TEXT_LEFT_SIDE_TILE 2
+#define TEXT_RIGHT_SIDE_TILE 3
+#define TEXT_RIGHT_DOWN_CORNER_TILE 4
+#define TEXT_DOWN_LEFT_CORNER_TILE 5
+#define TEXT_LEFT_UP_CORNER_TILE 6
+#define TEXT_UP_RIGHT_CORNER_TILE 7
+
 enum Keys
 {
     KEY_W = 0,
@@ -146,7 +156,7 @@ void Text::drawPressNextSymbol()
   	SrcR.h = iTileHeight; //iMyHeightAsPixel; 
 		
   	DestR.x = 0+fMyWindowWidth/2; //getXPos();
-  	DestR.y = fMyWindowHeight-iInputTileHeight; //iTileHeight;//getYPos();
+  	DestR.y = fMyWindowHeight-iInputTileHeight*1.5; //iTileHeight;//getYPos();
 
 /*
   	DestR.x = 0; 
@@ -270,8 +280,8 @@ void Text::drawTextBackgroundWithTextureTopRightCorner()
   	DestR.x = 0+fMyWindowWidth-fMyWindowWidth/6;
   	DestR.y = fMyWindowHeight-fMyWindowHeight/4;
   	
-  	DestR.w = fGridSquareWidth/2; 
-  	DestR.h = fGridSquareHeight/2; 
+  	DestR.w = fGridSquareWidth; ///2; 
+  	DestR.h = fGridSquareHeight; ///2; 
 	
   	//note: SDL color max 255; GIMP color max 100
 //		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
@@ -292,11 +302,20 @@ void Text::drawTextBackgroundWithTextureBottomRightCorner()
   	SrcR.w = iInputTileWidth; 
   	SrcR.h = iInputTileHeight; 
 	
+/*	
   	DestR.x = 0+fMyWindowWidth-fMyWindowWidth/6;
   	DestR.y = fMyWindowHeight-fGridSquareHeight/2;
+*/
+  	DestR.x = 0+fMyWindowWidth-fGridSquareWidth;
+  	DestR.y = fMyWindowHeight-fGridSquareHeight;
   	
-  	DestR.w = fGridSquareWidth/2; 
+  	DestR.w = fGridSquareWidth; ///2; 
+  	DestR.h = fGridSquareHeight; ///2;
+
+/*
+  	DestR.w = fGridSquareWidth/2; TEXT_RIGHT_DOWN_CORNER_TILE
   	DestR.h = fGridSquareHeight/2;
+*/
 	
   	//note: SDL color max 255; GIMP color max 100
 //		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
@@ -304,12 +323,128 @@ void Text::drawTextBackgroundWithTextureBottomRightCorner()
 }
 
 //added by Mike, 20211217
+void Text::drawTextBackgroundWithTextureTopSide()
+{
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0+iInputTileWidth*2;// +1; //added +1 due to 1px of left tile included
+  	SrcR.y = 0;
+	
+  	SrcR.w = iInputTileWidth; 
+  	SrcR.h = iInputTileHeight; 
+	
+		//edited by Mike, 20211217
+/*	
+  	DestR.x = 0+fMyWindowWidth/6/2+fGridSquareWidth/2;
+  	DestR.y = fMyWindowHeight-fMyWindowHeight/4;
+  	
+  	DestR.w = fGridSquareWidth/2;
+  	DestR.h = fGridSquareHeight/2;
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               		
+*/
+	//TOP of text background
+	for (int iCount=0; iCount<14; iCount++) {
+  	DestR.x = 0+fMyWindowWidth/6/2+(fGridSquareWidth/2*(iCount+1));
+  	DestR.y = fMyWindowHeight-fMyWindowHeight/4;
+  	
+  	DestR.w = fGridSquareWidth/2;
+  	DestR.h = fGridSquareHeight/2;
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               		
+	}
+	
+	
+}
+
+//added by Mike, 20211119
+void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
+{
+/*
+	int iTileWidth=fGridSquareWidth;
+	int iTileHeight=fGridSquareHeight;
+*/
+	int iTileWidth=64; //32
+	int iTileHeight=64; //32
+	
+  //Rectangles for drawing which will specify source (inside the texture)
+  //and target (on the screen) for rendering our textures.
+  SDL_Rect SrcR;
+  SDL_Rect DestR;
+
+/*  	    
+  SrcR.x = 0; //x;
+  SrcR.y = 0; //y;
+*/
+	
+	if (iType==TEXT_TOP_SIDE_TILE) {
+  	SrcR.x = 0+iTileWidth*2; 
+  	SrcR.y = 0; 
+	}
+	else if (iType==TEXT_RIGHT_SIDE_TILE) {
+  	SrcR.x = 0+iTileWidth*3; 
+  	SrcR.y = 0; 
+	}
+	else if (iType==TEXT_BOTTOM_SIDE_TILE) {
+  	SrcR.x = 0+iTileWidth*2; 
+  	SrcR.y = 0+iTileHeight;  	
+	}	
+	else if (iType==TEXT_LEFT_SIDE_TILE) {
+  	SrcR.x = 0+iTileWidth*3;
+  	SrcR.y = 0+iTileHeight;  	
+	}	
+	//corner
+	else {
+		if (iType==TEXT_UP_RIGHT_CORNER_TILE) {
+  		SrcR.x = 0;
+  		SrcR.y = 0;
+		}
+		else if (iType==TEXT_RIGHT_DOWN_CORNER_TILE) {
+  		SrcR.x = 0+iTileWidth;
+  		SrcR.y = 0;
+		}
+		else if (iType==TEXT_DOWN_LEFT_CORNER_TILE) {
+  		SrcR.x = 0+iTileWidth;
+  		SrcR.y = 0+iTileHeight;  	
+		}
+		else if (iType==TEXT_LEFT_UP_CORNER_TILE) {
+  		SrcR.x = 0+iTileWidth;
+  		SrcR.y = 0;
+		}	
+	}	
+
+  SrcR.w = iTileWidth;
+  SrcR.h = iTileHeight;
+
+  DestR.x = x; //+iCurrentOffsetWidth;
+  DestR.y = y;
+  
+  DestR.w = fGridSquareWidth;
+  DestR.h = fGridSquareHeight;
+
+	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
+}
+
+//added by Mike, 20211217
 void Text::drawTextBackgroundWithTexture()
 {
+/*
 	drawTextBackgroundWithTextureTopLeftCorner();
 	drawTextBackgroundWithTextureBottomLeftCorner();
 	drawTextBackgroundWithTextureTopRightCorner();
-	drawTextBackgroundWithTextureBottomRightCorner();	
+	drawTextBackgroundWithTextureBottomRightCorner();		
+	drawTextBackgroundWithTextureTopSide();
+*/
+	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
+	
+	
 }
 
 void Text::drawText()
@@ -363,7 +498,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
   	//edited by Mike, 20211215
 //    myFont->draw_string(x+fGridSquareWidth,y+fGridSquareHeight/2*iRowCount,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 
-    myFont->draw_string(x+fGridSquareWidth,fMyWindowHeight-fMyWindowHeight/4 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+		//edited by Mike, 20211217
+//    myFont->draw_string(x+fGridSquareWidth,fMyWindowHeight-fMyWindowHeight/4 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+
+    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*0.2,fMyWindowHeight-fMyWindowHeight/3.5 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 
     
   iTextAnimationCountDelay=0;
