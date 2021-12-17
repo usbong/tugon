@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20211215
+ * @date updated: 20211217
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -59,6 +59,9 @@ class Font;
 class Text: public MyDynamicObject
 {
 private:    
+		int iInputTileWidth;
+		int iInputTileHeight;
+
     char cCurrentTextContainer[MAX_TEXT_CHAR_ROW_RAM][MAX_TEXT_CHAR_COLUMN];
     
     int iTextAnimationCountDelay;
@@ -93,7 +96,14 @@ public:
     }
 
     void drawText();    
-    void drawTextBackgroundWithTexture();    
+    void drawTextBackgroundWithTexture();  
+    //added by Mike, 20211217     
+    void drawTextBackgroundWithTexturePrev(); 
+    void drawTextBackgroundWithTextureTopLeftCorner(); 
+    void drawTextBackgroundWithTextureBottomLeftCorner();
+    void drawTextBackgroundWithTextureTopRightCorner();
+    void drawTextBackgroundWithTextureBottomRightCorner();
+    
     void drawTextWithFontTexture(int x, int y);
     void update(float dt);
     

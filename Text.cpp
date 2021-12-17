@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211215
+ * @date updated: 20211217
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -26,6 +26,16 @@
  * Syson, M., Camacho, R., Gonzales, D., Del Rosario, R., Vidal, E., et al.
  *
  */
+ 
+//added by Mike, 20211217
+//note: Maiging may Kasangkapan na magagamit 
+//sa paglalagay ng mga Image TILE sa daigdig.
+//Babasahin ng computer ang output file nito bilang input 
+//upang awtomatiko iguhit ang mga Image TILE.
+
+//INTERACTIVE na Aklat ng Salaysay
+//where: INTERACTIVE: May Ugnayang Pagkilos sa nailikhang daigdig
+//Sangguninan: Dragon Quest VI; Super Family Computer
 
 #include <stdio.h>
 #include <math.h>
@@ -79,6 +89,10 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 */
 		iMyWidthAsPixel=64*2; 
   	iMyHeightAsPixel=64; 
+  	
+  	//edited by Mike, 20211217
+  	iInputTileWidth=16*2;
+		iInputTileHeight=16*2;
     	
   	iMyXPosAsPixel=xPos;
   	iMyYPosAsPixel=yPos;
@@ -117,8 +131,8 @@ Text::~Text()
 
 void Text::drawPressNextSymbol()
 {
-		int iTileWidth=16;
-		int iTileHeight=16;
+		int iTileWidth=iInputTileWidth/2; //16;
+		int iTileHeight=iInputTileHeight/2; //16;
 
    	//Rectangles for drawing which will specify source (inside the texture)
   	//and target (on the screen) for rendering our textures.
@@ -126,13 +140,13 @@ void Text::drawPressNextSymbol()
   	SDL_Rect DestR;
 
   	SrcR.x = 0;
-  	SrcR.y = 0+4*iTileHeight;
+  	SrcR.y = 0+4*iTileHeight; 
 	
   	SrcR.w = iTileWidth; //iMyWidthAsPixel; 
   	SrcR.h = iTileHeight; //iMyHeightAsPixel; 
 		
   	DestR.x = 0+fMyWindowWidth/2; //getXPos();
-  	DestR.y = fMyWindowHeight-iTileHeight*2;//getYPos();
+  	DestR.y = fMyWindowHeight-iInputTileHeight; //iTileHeight;//getYPos();
 
 /*
   	DestR.x = 0; 
@@ -154,7 +168,7 @@ void Text::drawPressNextSymbol()
 		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);    	
 }
 
-void Text::drawTextBackgroundWithTexture()
+void Text::drawTextBackgroundWithTexturePrev()
 {
    	//Rectangles for drawing which will specify source (inside the texture)
   	//and target (on the screen) for rendering our textures.
@@ -189,6 +203,114 @@ void Text::drawTextBackgroundWithTexture()
 		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               	
 }
 
+//added by Mike, 20211217
+void Text::drawTextBackgroundWithTextureTopLeftCorner()
+{
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0;
+  	SrcR.y = 0;
+	
+  	SrcR.w = iInputTileWidth; 
+  	SrcR.h = iInputTileHeight; 
+	
+  	DestR.x = 0+fMyWindowWidth/6/2;
+  	DestR.y = fMyWindowHeight-fMyWindowHeight/4;
+  	
+  	DestR.w = fGridSquareWidth/2; //fMyWindowWidth-fMyWindowWidth/6; //fGridSquareWidth;
+  	DestR.h = fGridSquareHeight/2; //fMyWindowHeight/4; //fGridSquareHeight;	
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               	
+}
+
+//added by Mike, 20211217
+void Text::drawTextBackgroundWithTextureBottomLeftCorner()
+{
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0;
+  	SrcR.y = 0+iInputTileHeight;
+	
+  	SrcR.w = iInputTileWidth; 
+  	SrcR.h = iInputTileHeight; 
+	
+  	DestR.x = 0+fMyWindowWidth/6/2;
+  	DestR.y = fMyWindowHeight-fGridSquareHeight/2; //-fMyWindowHeight/4;
+  	
+  	DestR.w = fGridSquareWidth/2; //fMyWindowWidth-fMyWindowWidth/6; //fGridSquareWidth;
+  	DestR.h = fGridSquareHeight/2; //fMyWindowHeight/4; //fGridSquareHeight;	
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               	
+}
+
+//added by Mike, 20211217
+void Text::drawTextBackgroundWithTextureTopRightCorner()
+{
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0+iInputTileWidth;
+  	SrcR.y = 0;
+	
+  	SrcR.w = iInputTileWidth; 
+  	SrcR.h = iInputTileHeight; 
+	
+  	DestR.x = 0+fMyWindowWidth-fMyWindowWidth/6;
+  	DestR.y = fMyWindowHeight-fMyWindowHeight/4;
+  	
+  	DestR.w = fGridSquareWidth/2; 
+  	DestR.h = fGridSquareHeight/2; 
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               	
+}
+
+//added by Mike, 20211217
+void Text::drawTextBackgroundWithTextureBottomRightCorner()
+{
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0+iInputTileWidth;
+  	SrcR.y = 0+iInputTileHeight;
+	
+  	SrcR.w = iInputTileWidth; 
+  	SrcR.h = iInputTileHeight; 
+	
+  	DestR.x = 0+fMyWindowWidth-fMyWindowWidth/6;
+  	DestR.y = fMyWindowHeight-fGridSquareHeight/2;
+  	
+  	DestR.w = fGridSquareWidth/2; 
+  	DestR.h = fGridSquareHeight/2;
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);               	
+}
+
+//added by Mike, 20211217
+void Text::drawTextBackgroundWithTexture()
+{
+	drawTextBackgroundWithTextureTopLeftCorner();
+	drawTextBackgroundWithTextureBottomLeftCorner();
+	drawTextBackgroundWithTextureTopRightCorner();
+	drawTextBackgroundWithTextureBottomRightCorner();	
+}
 
 void Text::drawText()
 {
