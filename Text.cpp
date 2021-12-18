@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211217
+ * @date updated: 20211218
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -64,6 +64,7 @@
 #define TEXT_DOWN_LEFT_CORNER_TILE 5
 #define TEXT_LEFT_UP_CORNER_TILE 6
 #define TEXT_UP_RIGHT_CORNER_TILE 7
+#define TEXT_CENTER_TILE 8
 
 enum Keys
 {
@@ -90,6 +91,7 @@ enum Keys
 };
 
 
+//edited by Mike, 20211218
 Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int windowWidth, int windowHeight): MyDynamicObject(xPos,yPos,zPos, windowWidth, windowHeight)
 {            
 /*
@@ -97,7 +99,7 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
     myWidth=fMyWindowWidthInput/1.5f;
     myHeight=fMyWindowHeightInput/1.5f;
 */
-		iMyWidthAsPixel=64*2; 
+		iMyWidthAsPixel=64; //64*2; 
   	iMyHeightAsPixel=64; 
   	
   	//edited by Mike, 20211217
@@ -107,16 +109,20 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
   	iMyXPosAsPixel=xPos;
   	iMyYPosAsPixel=yPos;
   	iMyZPosAsPixel=zPos;
-	
+
+		//TO-DO: -set:fMyWindowWidth to integer	
+		//TO-DO: -set:fMyWindowHeight to integer	
 		fMyWindowWidth=windowWidth;
 		fMyWindowHeight=windowHeight;
 
+/* //removed by Mike, 20211218
 		//added by Mike, 20211215
   	int iRowCountMax=10;
   	int iColumnCountMax=iRowCountMax;//18; 
 		//auto-resize width
   	fGridSquareHeight = (windowWidth)/iRowCountMax;
   	fGridSquareWidth = (windowWidth)/iColumnCountMax;
+*/
 				    	   
   	iCountAnimationFrame=0;
 //  	iCurrentKeyInput=2; //start: face RIGHT
@@ -126,17 +132,24 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 			
   	mySDLRenderer = mySDLRendererInput;
 
+/*	//removed by Mike, 20211218
 		//added by Mike, 20211215
 		myFont = new Font(mySDLRenderer,0,0,0,windowWidth,windowHeight);
-		myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
-  
+		myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	  
   	texture = loadTexture((char*)"textures/text.png");	
-
+*/
     readInputText((char*)"inputHalimbawa.txt");							
 }
 
 Text::~Text()
 {
+}
+
+//added by Mike, 20211218
+void Text::setFont() {
+	myFont = new Font(mySDLRenderer,0,0,0,fMyWindowWidth,fMyWindowHeight);
+	myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	  
+  texture = loadTexture((char*)"textures/text.png");	
 }
 
 void Text::drawPressNextSymbol()
@@ -385,18 +398,22 @@ void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
 */
 	
 	if (iType==TEXT_TOP_SIDE_TILE) {
-  	SrcR.x = 0+iTileWidth*2; 
-  	SrcR.y = 0; 
+  	SrcR.x = 0+iTileWidth*1; 
+  	SrcR.y = 0+iTileHeight*2; 
 	}
 	else if (iType==TEXT_RIGHT_SIDE_TILE) {
-  	SrcR.x = 0+iTileWidth*3; 
-  	SrcR.y = 0; 
+  	SrcR.x = 0+iTileWidth*2; 
+  	SrcR.y = 0+iTileHeight; 
 	}
 	else if (iType==TEXT_BOTTOM_SIDE_TILE) {
   	SrcR.x = 0+iTileWidth*2; 
-  	SrcR.y = 0+iTileHeight;  	
+  	SrcR.y = 0+iTileHeight*2;  	
 	}	
 	else if (iType==TEXT_LEFT_SIDE_TILE) {
+  	SrcR.x = 0+iTileWidth;
+  	SrcR.y = 0+iTileHeight;  	
+	}	
+	else if (iType==TEXT_CENTER_TILE) {
   	SrcR.x = 0+iTileWidth*3;
   	SrcR.y = 0+iTileHeight;  	
 	}	
@@ -407,12 +424,12 @@ void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
   		SrcR.y = 0;
 		}
 		else if (iType==TEXT_RIGHT_DOWN_CORNER_TILE) {
-  		SrcR.x = 0+iTileWidth;
+  		SrcR.x = 0+iTileWidth*2;
   		SrcR.y = 0;
 		}
 		else if (iType==TEXT_DOWN_LEFT_CORNER_TILE) {
-  		SrcR.x = 0+iTileWidth;
-  		SrcR.y = 0+iTileHeight;  	
+  		SrcR.x = 0+iTileWidth*3;
+  		SrcR.y = 0;  	
 		}
 		else if (iType==TEXT_LEFT_UP_CORNER_TILE) {
   		SrcR.x = 0+iTileWidth;
@@ -420,14 +437,23 @@ void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
 		}	
 	}	
 
-  SrcR.w = iTileWidth;
-  SrcR.h = iTileHeight;
+  SrcR.w = iTileWidth-1;
+  SrcR.h = iTileHeight-1;
 
   DestR.x = x; //+iCurrentOffsetWidth;
   DestR.y = y;
+   
+//  printf(">> inside text.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
   
+  //edited by Mike, 20211218
+  //TO-DO: -reverify: cause need to +1
+  DestR.w = fGridSquareWidth+1;
+  DestR.h = fGridSquareHeight+1;
+
+/*
   DestR.w = fGridSquareWidth;
   DestR.h = fGridSquareHeight;
+*/
 
 	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 }
@@ -443,7 +469,29 @@ void Text::drawTextBackgroundWithTexture()
 	drawTextBackgroundWithTextureTopSide();
 */
 	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
-	
+
+	//added by Mike, 20211218
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, fMyWindowWidth-2*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);	
+
+	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, fMyWindowWidth-2*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_SIDE_TILE, 1*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, fMyWindowWidth-2*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+
+	for (int iCount=0; iCount<6; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
+	}
+
+	for (int iCount=0; iCount<6; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
+	}
+
+	for (int iCount=0; iCount<6; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+	}
 	
 }
 

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211215
+ * @date updated: 20211218
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -713,6 +713,9 @@ void init() {
 	//added by Mike, 20211214
 	myText = new Text(mySDLRenderer,0,0,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
 	myText->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
+	myText->setFont();	
+
+//  printf(">> inside mainLinux.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
 
 	
 	//added by Mike, 20211120

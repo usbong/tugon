@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211112
- * @date updated: 20211214
+ * @date updated: 20211218
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -113,6 +113,12 @@ public:
     
     float fGridSquareWidth;
     float fGridSquareHeight;
+
+		//added by Mike, 20211218
+		//note: There exists excess if computation of width and height NOT whole number;
+		//example: 10.0/3.0=3.333...
+		int iScreenOffsetBottomSide;
+		int iScreenOffsetRightSide;
 
 		SDL_Renderer *mySDLRenderer;
 		SDL_Texture *texture;
@@ -263,6 +269,14 @@ public:
 		virtual void setGridTileWidthHeight(float fGridSquareWidthInput, float fGridSquareHeightInput) {
 			fGridSquareWidth=fGridSquareWidthInput;
 			fGridSquareHeight=fGridSquareHeightInput;
+			
+			//added by Mike, 20211218
+			//note: execute setGridTileWidthHeight(...) after Object((SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int windowWidth, int windowHeight)...
+			iScreenOffsetRightSide=fMyWindowWidth-fGridSquareWidth*10;
+			iScreenOffsetBottomSide=fMyWindowHeight-fGridSquareHeight*10;
+			
+			fMyWindowHeight=fMyWindowHeight-iScreenOffsetBottomSide;
+			fMyWindowWidth=fMyWindowWidth-iScreenOffsetRightSide;
 		}
 
     void move(int iKeyInput);
