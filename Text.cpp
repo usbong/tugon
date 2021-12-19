@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211218
+ * @date updated: 20211219
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -36,6 +36,28 @@
 //INTERACTIVE na Aklat ng Salaysay
 //where: INTERACTIVE: May Ugnayang Pagkilos sa nailikhang daigdig
 //Sangguninan: Dragon Quest VI; Super Family Computer
+
+//-----
+//added by Mike, 20211219
+//note: updated: fGridSquareWidth to use floating-point numbers
+//output: 102.400002, instead of 102
+//TO-DO: -update: computations
+
+//reminder: There exists Computer/Television Screen width and height variations
+//where: grid square width is NOT anymore whole number
+
+//verify: with NOKIA mobile telephones JAVA Virtual Machine auto-sets width and height
+//so we CAN use whole numbers as input
+
+//verify: build own machine for computer monitor to be always whole number
+
+//note: wireless electric wave from Teroristang Komunista group continues; 
+//causes eyes to become red; need moisture from Dropper.
+//at USBONG HQ; nearest mobile telephone > 5meters
+
+//present action: move to another location
+//-----
+
 
 #include <stdio.h>
 #include <math.h>
@@ -114,6 +136,8 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 		//TO-DO: -set:fMyWindowHeight to integer	
 		fMyWindowWidth=windowWidth;
 		fMyWindowHeight=windowHeight;
+		
+//		printf(">>>>>fMyWindowWidth: %f\n",fMyWindowWidth);
 
 /* //removed by Mike, 20211218
 		//added by Mike, 20211215
@@ -377,8 +401,9 @@ void Text::drawTextBackgroundWithTextureTopSide()
 	
 }
 
-//added by Mike, 20211119
-void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
+//added by Mike, 20211119; edited by Mike, 20211219
+//void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
+void Text::drawTextBackgroundWithTextureTile(int iType, float x, float y)
 {
 /*
 	int iTileWidth=fGridSquareWidth;
@@ -437,23 +462,28 @@ void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
 		}	
 	}	
 
+/* //edited by Mike, 20211219
   SrcR.w = iTileWidth-1;
   SrcR.h = iTileHeight-1;
+*/
+  SrcR.w = iTileWidth;
+  SrcR.h = iTileHeight;
 
   DestR.x = x; //+iCurrentOffsetWidth;
   DestR.y = y;
    
-//  printf(">> inside text.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
+  printf(">> inside text.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
   
   //edited by Mike, 20211218
   //TO-DO: -reverify: cause need to +1
+/*  
   DestR.w = fGridSquareWidth+1;
   DestR.h = fGridSquareHeight+1;
+*/
 
-/*
   DestR.w = fGridSquareWidth;
   DestR.h = fGridSquareHeight;
-*/
+
 
 	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 }

@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211218
+ * @date updated: 20211219
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -544,11 +544,12 @@ void init() {
   fGridSquareHeight = 64;
 */  
 
+/* //edited by Mike, 20211219
   fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;
-  //edited by Mike, 20211209
-//  fGridSquareWidth = fGridSquareHeight;
-	//auto-resize width
   fGridSquareWidth = (myWindowWidthAsPixel)/iColumnCountMax;
+*/
+  fGridSquareHeight = (myWindowHeightAsPixel)/(iRowCountMax*1.0);
+  fGridSquareWidth = (myWindowWidthAsPixel)/(iColumnCountMax*1.0);
   
   //wide screen; portrait mode;
   //example: 1366 x 768; width x height; 
@@ -590,9 +591,12 @@ void init() {
 	iStepX=1; //2;//1;
 	iStepY=1; //2;//1;
 */
+
+/* //removed by Mike, 20211219
 	//note:
 	iRowCountMax=10;
   iColumnCountMax=iRowCountMax;//18; 
+*/
 	
 	iStepXMax=2*(2);
 	iStepYMax=2*(2);

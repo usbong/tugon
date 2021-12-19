@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20211218
+ * @date updated: 20211219
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -100,8 +100,9 @@ public:
 
     void drawText();    
     void drawTextBackgroundWithTexture();  
-    //added by Mike, 20211217     
-		void drawTextBackgroundWithTextureTile(int iType, int x, int y);    
+    //added by Mike, 20211217; edited by Mike, 20211219
+//	void drawTextBackgroundWithTextureTile(int iType, int x, int y);    
+ 	void drawTextBackgroundWithTextureTile(int iType, float x, float y);    
     
     void drawTextBackgroundWithTexturePrev(); 
     void drawTextBackgroundWithTextureTopLeftCorner(); 
