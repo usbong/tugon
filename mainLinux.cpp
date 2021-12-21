@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211219
+ * @date updated: 20211221
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -501,7 +501,9 @@ void prepareScene(void)
 //	SDL_SetRenderDrawColor(mySDLRenderer, 193, 246, 253, 255); //sky blue
 	//edited by Mike, 20211126
 //	SDL_SetRenderDrawColor(mySDLRenderer, 233, 214, 146, 255); //sand
-	SDL_SetRenderDrawColor(mySDLRenderer, 255*0.318,  255*0.569, 255*0.063, 255); //grass
+	//edited by Mike, 20211221
+//	SDL_SetRenderDrawColor(mySDLRenderer, 255*0.318,  255*0.569, 255*0.063, 255); //grass
+	SDL_SetRenderDrawColor(mySDLRenderer, 0*1.0,  0*1.0, 0*1.0, 255); //black
 	
 	SDL_RenderClear(mySDLRenderer);
 }
@@ -544,29 +546,55 @@ void init() {
   fGridSquareHeight = 64;
 */  
 
-/* //edited by Mike, 20211219
   fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;
+  //edited by Mike, 20211209
+//  fGridSquareWidth = fGridSquareHeight;
+	//auto-resize width
   fGridSquareWidth = (myWindowWidthAsPixel)/iColumnCountMax;
-*/
-  fGridSquareHeight = (myWindowHeightAsPixel)/(iRowCountMax*1.0);
-  fGridSquareWidth = (myWindowWidthAsPixel)/(iColumnCountMax*1.0);
   
+//-----
+	printf(">>fGridSquareWidth: %f\n",fGridSquareWidth);
+	printf(">>myWindowWidthAsPixel: %i\n",myWindowWidthAsPixel);
+
+	printf(">>fGridSquareHeight: %f\n",fGridSquareHeight);
+	printf(">>myWindowHeightAsPixel: %i\n",myWindowHeightAsPixel);
+
+
+/*
+			fGridSquareWidth=(int)fGridSquareWidth+1;
+			fGridSquareHeight=(int)fGridSquareHeight+1;			
+*/			
+
+			int iScreenOffsetRightSide=myWindowWidthAsPixel-fGridSquareWidth*10;
+			int iScreenOffsetBottomSide=myWindowHeightAsPixel-fGridSquareHeight*10;
+			
+			myWindowHeightAsPixel=fGridSquareHeight*10;
+			myWindowWidthAsPixel=fGridSquareWidth*10;
+			
+//printf(">>>>>fGridSquareWidth: %f\n",fGridSquareWidth);
+/*
+printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
+*/			
+
+//-----
+    
   //wide screen; portrait mode;
   //example: 1366 x 768; width x height; 
   //iBaseOffsetWidth: 299; fGridSquareWidth: 76.000000
 	//edited by Mike, 20211209
 //  iBaseOffsetWidth=(myWindowWidthAsPixel-myWindowHeightAsPixel)/2;
   iBaseOffsetWidth=0;
-
-  //TO-DO: -add: this  
+//  iBaseOffsetWidth=0+iScreenOffsetRightSide;
   iBaseOffsetHeight=0;
+//  iBaseOffsetHeight=0+iScreenOffsetBottomSide;
 
 /*	//removed by Mike, 20211129  
   //added by Mike, 20211124
   printf(">>iBaseOffsetWidth: %i\n",iBaseOffsetWidth);
   printf(">>fGridSquareWidth: %f\n",fGridSquareWidth);
 */
-  
+
+/*  
   //iBaseOffsetWidth/fGridSquareWidth = 3.9; wide screen
   if (iBaseOffsetWidth/fGridSquareWidth>=3) {
 		iNonWideScreenOffsetWidth=0;
@@ -575,6 +603,8 @@ void init() {
   	//edited by Mike, 20211126
   	iNonWideScreenOffsetWidth=iBaseOffsetWidth*2/fGridSquareWidth;//-1;
   }
+*/
+		iNonWideScreenOffsetWidth=0;
 
   
   iCurrentOffsetWidth=iBaseOffsetWidth;
@@ -592,12 +622,12 @@ void init() {
 	iStepY=1; //2;//1;
 */
 
-/* //removed by Mike, 20211219
+/* //removed by Mike, 20211220
 	//note:
 	iRowCountMax=10;
   iColumnCountMax=iRowCountMax;//18; 
-*/
-	
+*/	
+
 	iStepXMax=2*(2);
 	iStepYMax=2*(2);
 
@@ -1873,12 +1903,13 @@ void draw(int x, int y)
 	SDL_RenderClear(mySDLRenderer);
 				
 	//added by Mike, 20211113
-	drawLevel();
+//	drawLevel();
 
 	//added by Mike, 20211111
 	//note: excess drawn pixel due to drawGrid()...
 //	drawGrid();
 
+/* //removed by Mike, 20211221
 	//added by Mike, 20211117; edited by Mike, 20211118
 //	myIpis[0]->draw();
 	for (int iCount=0; iCount<MAX_IPIS; iCount++) {
@@ -1934,6 +1965,8 @@ void draw(int x, int y)
 
 	//added by Mike, 20211123
 	drawTimeCountAsSet(0);
+	
+*/	
 	
 	//added by Mike, 20211213
 	myFont->draw_string(0,0,0,(char*)"HALIMBAWA"); //note: all capital letters; no small letters yet

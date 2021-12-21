@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211219
+ * @date updated: 20211221
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -36,28 +36,6 @@
 //INTERACTIVE na Aklat ng Salaysay
 //where: INTERACTIVE: May Ugnayang Pagkilos sa nailikhang daigdig
 //Sangguninan: Dragon Quest VI; Super Family Computer
-
-//-----
-//added by Mike, 20211219
-//note: updated: fGridSquareWidth to use floating-point numbers
-//output: 102.400002, instead of 102
-//TO-DO: -update: computations
-
-//reminder: There exists Computer/Television Screen width and height variations
-//where: grid square width is NOT anymore whole number
-
-//verify: with NOKIA mobile telephones JAVA Virtual Machine auto-sets width and height
-//so we CAN use whole numbers as input
-
-//verify: build own machine for computer monitor to be always whole number
-
-//note: wireless electric wave from Teroristang Komunista group continues; 
-//causes eyes to become red; need moisture from Dropper.
-//at USBONG HQ; nearest mobile telephone > 5meters
-
-//present action: move to another location
-//-----
-
 
 #include <stdio.h>
 #include <math.h>
@@ -136,8 +114,6 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 		//TO-DO: -set:fMyWindowHeight to integer	
 		fMyWindowWidth=windowWidth;
 		fMyWindowHeight=windowHeight;
-		
-//		printf(">>>>>fMyWindowWidth: %f\n",fMyWindowWidth);
 
 /* //removed by Mike, 20211218
 		//added by Mike, 20211215
@@ -401,9 +377,8 @@ void Text::drawTextBackgroundWithTextureTopSide()
 	
 }
 
-//added by Mike, 20211119; edited by Mike, 20211219
-//void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
-void Text::drawTextBackgroundWithTextureTile(int iType, float x, float y)
+//added by Mike, 20211119
+void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
 {
 /*
 	int iTileWidth=fGridSquareWidth;
@@ -462,28 +437,26 @@ void Text::drawTextBackgroundWithTextureTile(int iType, float x, float y)
 		}	
 	}	
 
-/* //edited by Mike, 20211219
-  SrcR.w = iTileWidth-1;
-  SrcR.h = iTileHeight-1;
-*/
-  SrcR.w = iTileWidth;
-  SrcR.h = iTileHeight;
-
+  SrcR.w = iTileWidth; //-1;
+  SrcR.h = iTileHeight; //-1;
+/*
   DestR.x = x; //+iCurrentOffsetWidth;
   DestR.y = y;
+*/
+  DestR.x = x;
+  DestR.y = y;
    
-  printf(">> inside text.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
+//  printf(">> inside text.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
   
   //edited by Mike, 20211218
-  //TO-DO: -reverify: cause need to +1
-/*  
+  //SDL_RenderCopy(...) accepts only as input whole numbers, instead of floating point numbers
+/*Text
   DestR.w = fGridSquareWidth+1;
   DestR.h = fGridSquareHeight+1;
 */
 
   DestR.w = fGridSquareWidth;
   DestR.h = fGridSquareHeight;
-
 
 	SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 }
@@ -498,6 +471,8 @@ void Text::drawTextBackgroundWithTexture()
 	drawTextBackgroundWithTextureBottomRightCorner();		
 	drawTextBackgroundWithTextureTopSide();
 */
+
+/* //edited by Mike, 20211221
 	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
 
 	//added by Mike, 20211218
@@ -520,7 +495,38 @@ void Text::drawTextBackgroundWithTexture()
 	}
 
 	for (int iCount=0; iCount<6; iCount++) {
+		//edited by Mike, 20211221
+//		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+	}
+*/
+
+	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,1*fGridSquareHeight);
+
+	//added by Mike, 20211218
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 1*fGridSquareWidth,3*fGridSquareHeight);	
+
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, 8*fGridSquareWidth,1*fGridSquareHeight);	
+
+	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, 8*fGridSquareWidth,3*fGridSquareHeight);	
+
+//	drawTextBackgroundWithTextureTile(TEXT_LEFT_SIDE_TILE, 1*fGridSquareWidth,2*fGridSquareHeight);
+
+//	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, 2*fGridSquareWidth,2*fGridSquareHeight);
+
+	for (int iCount=0; iCount<6; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount+2)*fGridSquareWidth,1*fGridSquareHeight);
+	}
+
+	for (int iCount=0; iCount<6; iCount++) {
+//		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+2)*fGridSquareWidth,3*fGridSquareHeight);
+	}
+
+	for (int iCount=0; iCount<6; iCount++) {
+		//edited by Mike, 20211221
+//		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+
+//		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,2*fGridSquareHeight);
 	}
 	
 }

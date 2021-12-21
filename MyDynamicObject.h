@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211112
- * @date updated: 20211219
+ * @date updated: 20211221
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -117,12 +117,8 @@ public:
 		//added by Mike, 20211218
 		//note: There exists excess if computation of width and height NOT whole number;
 		//example: 10.0/3.0=3.333...
-/* //edited by Mike, 20211219		
 		int iScreenOffsetBottomSide;
 		int iScreenOffsetRightSide;
-*/
-		float fScreenOffsetBottomSide;
-		float fScreenOffsetRightSide;
 
 		SDL_Renderer *mySDLRenderer;
 		SDL_Texture *texture;
@@ -273,22 +269,24 @@ public:
 		virtual void setGridTileWidthHeight(float fGridSquareWidthInput, float fGridSquareHeightInput) {
 			fGridSquareWidth=fGridSquareWidthInput;
 			fGridSquareHeight=fGridSquareHeightInput;
+
+			fMyWindowWidth=fGridSquareWidth*10;
+			fMyWindowHeight=fGridSquareHeight*10;
+
 			
+/*	//edited by Mike, 20211220
+			fGridSquareWidth=(int)fGridSquareWidthInput+1;
+			fGridSquareHeight=(int)fGridSquareHeightInput+1;			
+*/		
+/*
 			//added by Mike, 20211218
 			//note: execute setGridTileWidthHeight(...) after Object((SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int windowWidth, int windowHeight)...
-/* //edited by Mike, 20211219			
-			iScreenOffsetRightSide=fMyWindowWidth-fGridSquareWidth*10;
-			iScreenOffsetBottomSide=fMyWindowHeight-fGridSquareHeight*10;
+			iScreenOffsetRightSide=fMyWindowWidth-((int)fGridSquareWidth*10);
+			iScreenOffsetBottomSide=fMyWindowHeight-((int)fGridSquareHeight*10);
 			
 			fMyWindowHeight=fMyWindowHeight-iScreenOffsetBottomSide;
-			fMyWindowWidth=fMyWindowWidth-iScreenOffsetRightSide;
+			fMyWindowWidth=fMyWindowWidth-iScreenOffsetRightSide;		
 */
-			fScreenOffsetRightSide=fMyWindowWidth-fGridSquareWidth*10.0;
-			fScreenOffsetBottomSide=fMyWindowHeight-fGridSquareHeight*10.0;
-			
-			fMyWindowHeight=fMyWindowHeight-fScreenOffsetBottomSide;
-			fMyWindowWidth=fMyWindowWidth-fScreenOffsetRightSide;
-
 		}
 
     void move(int iKeyInput);
