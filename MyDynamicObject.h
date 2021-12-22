@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211112
- * @date updated: 20211221
+ * @date updated: 20211222
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -266,13 +266,30 @@ public:
         iMyYPosAsPixel=iY;
     }
 
-		virtual void setGridTileWidthHeight(float fGridSquareWidthInput, float fGridSquareHeightInput) {
+		//added by Mike, 20211222
+		virtual void setGridTileWidthHeightBasedOnMonitorScreen(float fGridSquareWidthInput, float fGridSquareHeightInput) {
 			fGridSquareWidth=fGridSquareWidthInput;
 			fGridSquareHeight=fGridSquareHeightInput;
+		}
 
+		virtual void setGridTileWidthHeight(float fGridSquareWidthInput, float fGridSquareHeightInput) {
+/* //edited by Mike, 20211222 			
+ 			//edited by Mike, 20211222
+			fGridSquareWidth=fGridSquareWidthInput;
+			fGridSquareHeight=fGridSquareHeightInput;
+*/			
+			fGridSquareWidth = 64;
+  		fGridSquareHeight = 64;
+			
+/*
+			//set to be SQUARE
+			fGridSquareWidth=fGridSquareHeightInput; //fGridSquareWidthInput;
+			fGridSquareHeight=fGridSquareHeightInput;
+*/
+/*	//removed by Mike, 20211222
 			fMyWindowWidth=fGridSquareWidth*10;
 			fMyWindowHeight=fGridSquareHeight*10;
-
+*/
 			
 /*	//edited by Mike, 20211220
 			fGridSquareWidth=(int)fGridSquareWidthInput+1;

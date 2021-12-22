@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211221
+ * @date updated: 20211222
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -146,6 +146,10 @@ int iColumnCountMax;
 
 float fGridSquareWidth;
 float fGridSquareHeight;
+
+//added by Mike, 20211222
+int iScreenOffsetRightSide;
+int iScreenOffsetBottomSide;
 
 int iBaseOffsetWidth;
 int iBaseOffsetHeight;
@@ -503,7 +507,9 @@ void prepareScene(void)
 //	SDL_SetRenderDrawColor(mySDLRenderer, 233, 214, 146, 255); //sand
 	//edited by Mike, 20211221
 //	SDL_SetRenderDrawColor(mySDLRenderer, 255*0.318,  255*0.569, 255*0.063, 255); //grass
+		//edited by Mike, 20211222
 	SDL_SetRenderDrawColor(mySDLRenderer, 0*1.0,  0*1.0, 0*1.0, 255); //black
+//	SDL_SetRenderDrawColor(mySDLRenderer, 255*1.0,  255*0.0, 255*0.6, 255); //pink
 	
 	SDL_RenderClear(mySDLRenderer);
 }
@@ -541,16 +547,23 @@ void init() {
   
   //note: SDL and SDL_Image use integers, i.e. whole numbers,
   //instead of floating-point numbers; result: incorrect size of fGridSquare
-/* //edited by Mike, 20211114  
+ //edited by Mike, 20211114; edited again by Mike, 20211222
+ 	//note: using auto-resize to make input texture image file larger causes incorrect output
+ 	//example: excess size of tileWidth to include the next tile to the left
+ 	//solution: use openGL with floating-point numbers
+ 	//additional note: incorrect output NOT noticeable with FONT 
+ 	//due uses alpha, i.e. transparent pixels, near borders
+/*
   fGridSquareWidth = 64;
   fGridSquareHeight = 64;
 */  
 
-  fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;
-  //edited by Mike, 20211209
+  fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;  
+  //edited by Mike, 20211209; edited again by Mike, 20211222
 //  fGridSquareWidth = fGridSquareHeight;
 	//auto-resize width
   fGridSquareWidth = (myWindowWidthAsPixel)/iColumnCountMax;
+
   
 //-----
 	printf(">>fGridSquareWidth: %f\n",fGridSquareWidth);
@@ -565,8 +578,8 @@ void init() {
 			fGridSquareHeight=(int)fGridSquareHeight+1;			
 */			
 
-			int iScreenOffsetRightSide=myWindowWidthAsPixel-fGridSquareWidth*10;
-			int iScreenOffsetBottomSide=myWindowHeightAsPixel-fGridSquareHeight*10;
+			iScreenOffsetRightSide=myWindowWidthAsPixel-fGridSquareWidth*10;
+			iScreenOffsetBottomSide=myWindowHeightAsPixel-fGridSquareHeight*10;
 			
 			myWindowHeightAsPixel=fGridSquareHeight*10;
 			myWindowWidthAsPixel=fGridSquareWidth*10;
@@ -745,9 +758,12 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
 	myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
 
 	//added by Mike, 20211214
-	myText = new Text(mySDLRenderer,0,0,0,myWindowWidthAsPixel,myWindowHeightAsPixel);
+	printf(">>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
+	printf(">>>>myWindowWidthAsPixel: %i\n",myWindowWidthAsPixel);
+	
+	myText = new Text(mySDLRenderer,0,0,0,myWindowWidthAsPixel+iScreenOffsetRightSide,myWindowHeightAsPixel+iScreenOffsetBottomSide);
 	myText->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	
-	myText->setFont();	
+//	myText->setFont();	//removed by Mike, 20211222
 
 //  printf(">> inside mainLinux.cpp fGridSquareWidth: %f\n",fGridSquareWidth);
 

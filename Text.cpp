@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211221
+ * @date updated: 20211222
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -115,14 +115,15 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 		fMyWindowWidth=windowWidth;
 		fMyWindowHeight=windowHeight;
 
-/* //removed by Mike, 20211218
+ 		//removed by Mike, 20211218; added again by Mike, 20211222		
+		//note: shall re-set fGridSquareHeight, fGridSquareWidth
 		//added by Mike, 20211215
   	int iRowCountMax=10;
   	int iColumnCountMax=iRowCountMax;//18; 
 		//auto-resize width
   	fGridSquareHeight = (windowWidth)/iRowCountMax;
   	fGridSquareWidth = (windowWidth)/iColumnCountMax;
-*/
+
 				    	   
   	iCountAnimationFrame=0;
 //  	iCurrentKeyInput=2; //start: face RIGHT
@@ -138,6 +139,11 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 		myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	  
   	texture = loadTexture((char*)"textures/text.png");	
 */
+		//added by Mike, 20211222
+		//use FONT size based on computer/television monitor width and height;
+		//output problem NOT noticeable using alpha/transparent borders 
+		setFont(); 
+
     readInputText((char*)"inputHalimbawa.txt");							
 }
 
@@ -148,15 +154,19 @@ Text::~Text()
 //added by Mike, 20211218
 void Text::setFont() {
 	myFont = new Font(mySDLRenderer,0,0,0,fMyWindowWidth,fMyWindowHeight);
-	myFont->setGridTileWidthHeight(fGridSquareWidth,fGridSquareHeight);	  
+	myFont->setGridTileWidthHeightBasedOnMonitorScreen(fGridSquareWidth,fGridSquareHeight);	  
   texture = loadTexture((char*)"textures/text.png");	
 }
 
-void Text::drawPressNextSymbol()
+void Text::drawPressNextSymbolPrev()
 {
+	  //edited by Mike, 20211222
 		int iTileWidth=iInputTileWidth/2; //16;
 		int iTileHeight=iInputTileHeight/2; //16;
-
+/*
+		int iTileWidth=iInputTileWidth; //16;
+		int iTileHeight=iInputTileHeight; //16;
+*/
    	//Rectangles for drawing which will specify source (inside the texture)
   	//and target (on the screen) for rendering our textures.
   	SDL_Rect SrcR;
@@ -169,7 +179,57 @@ void Text::drawPressNextSymbol()
   	SrcR.h = iTileHeight; //iMyHeightAsPixel; 
 		
   	DestR.x = 0+fMyWindowWidth/2; //getXPos();
-  	DestR.y = fMyWindowHeight-iInputTileHeight*1.5; //iTileHeight;//getYPos();
+  	DestR.y = fMyWindowHeight-iInputTileHeight*1.5; //4; //1.5; //iTileHeight;//getYPos();
+
+/*
+  	DestR.x = 0; 
+  	DestR.y = 0;
+*/
+  	
+/* //edited by Mike, 20211209  	
+  	DestR.w = iMyWidthAsPixel;
+  	DestR.h = iMyHeightAsPixel;
+*/
+		//edited by Mike, 20211215
+//  	DestR.w = fMyWindowWidth-fMyWindowWidth/4/2*2; //fGridSquareWidth;
+  	DestR.w = fGridSquareWidth/3;
+  	DestR.h = fGridSquareHeight/2;
+	
+  	//note: SDL color max 255; GIMP color max 100
+//		SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white
+		
+		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);    	
+}
+
+//added by Mike, 20211222
+//TO-DO: -reverify: using only 3 rows for text
+//TO-DO: -fix: in first set of rows, press next button arrow displayed 
+//before computer finishes writing all text in set
+//TO-DO: -add: scroll upward after pressing next button arrow
+void Text::drawPressNextSymbol()
+{
+	  //edited by Mike, 20211222
+		int iTileWidth=iInputTileWidth/2; //16;
+		int iTileHeight=iInputTileHeight/2; //16;
+/*
+		int iTileWidth=iInputTileWidth; //16;
+		int iTileHeight=iInputTileHeight; //16;
+*/
+   	//Rectangles for drawing which will specify source (inside the texture)
+  	//and target (on the screen) for rendering our textures.
+  	SDL_Rect SrcR;
+  	SDL_Rect DestR;
+
+  	SrcR.x = 0;
+  	SrcR.y = 0+4*iTileHeight; 
+	
+  	SrcR.w = iTileWidth; //iMyWidthAsPixel; 
+  	SrcR.h = iTileHeight; //iMyHeightAsPixel; 
+		
+		//edited by Mike, 20211222	
+//  	DestR.x = 0+fMyWindowWidth/2; //getXPos();
+  	DestR.x = 0+(16+3)*fGridSquareWidth-iTileWidth*2; //getXPos();
+  	DestR.y = fMyWindowHeight-iInputTileHeight;//*1.5; //4; //1.5; //iTileHeight;//getYPos();
 
 /*
   	DestR.x = 0; 
@@ -437,8 +497,15 @@ void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
 		}	
 	}	
 
+	//edited by Mike, 20211222
   SrcR.w = iTileWidth; //-1;
   SrcR.h = iTileHeight; //-1;
+
+/*
+  SrcR.w = iTileWidth-3;
+  SrcR.h = iTileHeight-3;
+*/  
+  
 /*
   DestR.x = x; //+iCurrentOffsetWidth;
   DestR.y = y;
@@ -455,6 +522,11 @@ void Text::drawTextBackgroundWithTextureTile(int iType, int x, int y)
   DestR.h = fGridSquareHeight+1;
 */
 
+	//note: if input source texture image is square, output should also be square
+/*	//edited by Mike, 20211222
+  DestR.w = iTileWidth; //fGridSquareWidth;
+  DestR.h = iTileHeight; //fGridSquareHeight;
+*/
   DestR.w = fGridSquareWidth;
   DestR.h = fGridSquareHeight;
 
@@ -472,7 +544,8 @@ void Text::drawTextBackgroundWithTexture()
 	drawTextBackgroundWithTextureTopSide();
 */
 
-/* //edited by Mike, 20211221
+/* //edited by Mike, 20211222
+ //edited by Mike, 20211221; edited again by Mike, 20211222
 	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
 
 	//added by Mike, 20211218
@@ -501,34 +574,41 @@ void Text::drawTextBackgroundWithTexture()
 	}
 */
 
-	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,1*fGridSquareHeight);
+ 	//edited by Mike, 20211221; edited again by Mike, 20211222
+	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
 
 	//added by Mike, 20211218
-	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 1*fGridSquareWidth,3*fGridSquareHeight);	
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
 
-	drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, 8*fGridSquareWidth,1*fGridSquareHeight);	
+	//edited by Mike, 20211222
+	//drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, fMyWindowWidth-3*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);	
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);	
 
-	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, 8*fGridSquareWidth,3*fGridSquareHeight);	
+		//edited by Mike, 20211222
+//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, fMyWindowWidth-3*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
 
-//	drawTextBackgroundWithTextureTile(TEXT_LEFT_SIDE_TILE, 1*fGridSquareWidth,2*fGridSquareHeight);
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_SIDE_TILE, 2*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+		
+		//edited by Mike, 20211222
+	//note: has margin at right most due to fMyWindowWidth is trimmed
+//	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, fMyWindowWidth-3*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 
-//	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, 2*fGridSquareWidth,2*fGridSquareHeight);
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 
-	for (int iCount=0; iCount<6; iCount++) {
-		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount+2)*fGridSquareWidth,1*fGridSquareHeight);
+	for (int iCount=0; iCount<15; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
 	}
 
-	for (int iCount=0; iCount<6; iCount++) {
-//		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+2)*fGridSquareWidth,3*fGridSquareHeight);
+	for (int iCount=0; iCount<15; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
 	}
 
-	for (int iCount=0; iCount<6; iCount++) {
+	for (int iCount=0; iCount<15; iCount++) {
 		//edited by Mike, 20211221
 //		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
-
-//		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,2*fGridSquareHeight);
+		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 	}
-	
 }
 
 void Text::drawText()
@@ -584,8 +664,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 
 		//edited by Mike, 20211217
 //    myFont->draw_string(x+fGridSquareWidth,fMyWindowHeight-fMyWindowHeight/4 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-
-    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*0.2,fMyWindowHeight-fMyWindowHeight/3.5 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+		
+		//edited by Mike, 20211222
+//    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*0.2,fMyWindowHeight-fMyWindowHeight/3.5 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*1.4,fMyWindowHeight-fMyWindowHeight/4.0 +fGridSquareHeight/1.5*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 
     
   iTextAnimationCountDelay=0;
