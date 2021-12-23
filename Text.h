@@ -73,6 +73,9 @@ private:
     bool isAtMaxTextCharRow;
     int idrawPressNextSymbolCount;
     
+    //added by Mike, 20211223
+    int iTextBackgroundWidthOffset;
+    
     //added by Mike, 20210723
     bool bHasReachedEndOfTextMessage,
     		 bHasPressedKeyToCloseEndOfTextMessage;

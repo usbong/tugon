@@ -115,6 +115,9 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
 		fMyWindowWidth=windowWidth;
 		fMyWindowHeight=windowHeight;
 
+printf(">>> fMyWindowWidth: %f\n",fMyWindowWidth);
+printf(">>> fMyWindowHeight: %f\n",fMyWindowHeight);
+
  		//removed by Mike, 20211218; added again by Mike, 20211222		
 		//note: shall re-set fGridSquareHeight, fGridSquareWidth
 		//added by Mike, 20211215
@@ -124,6 +127,10 @@ Text::Text(SDL_Renderer* mySDLRendererInput, int xPos, int yPos, int zPos, int w
   	fGridSquareHeight = (windowWidth)/iRowCountMax;
   	fGridSquareWidth = (windowWidth)/iColumnCountMax;
 
+		//TO-DO: -add: auto-verify if Portrait, NOT landscape
+		iTextBackgroundWidthOffset = (fMyWindowWidth-fMyWindowHeight)/fGridSquareWidth;
+				    	   
+printf(">>>> iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);				    	   
 				    	   
   	iCountAnimationFrame=0;
 //  	iCurrentKeyInput=2; //start: face RIGHT
@@ -596,15 +603,21 @@ void Text::drawTextBackgroundWithTexture()
 
 	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 
-	for (int iCount=0; iCount<15; iCount++) {
+	//edited by Mike, 20211223
+//	for (int iCount=0; iCount<15; iCount++) {
+	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
 		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
 	}
 
-	for (int iCount=0; iCount<15; iCount++) {
+	//edited by Mike, 20211223
+//	for (int iCount=0; iCount<15; iCount++) {
+	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
 		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
 	}
 
-	for (int iCount=0; iCount<15; iCount++) {
+	//edited by Mike, 20211223
+//	for (int iCount=0; iCount<15; iCount++) {
+	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
 		//edited by Mike, 20211221
 //		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);

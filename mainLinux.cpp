@@ -268,6 +268,8 @@ void initSDL(void)
 	myWindowWidthAsPixel=mySDLDisplayMode.w;
 	myWindowHeightAsPixel=mySDLDisplayMode.h;
 	
+	//added by Mike, 20211223
+//	myWindowWidthAsPixel=768;
 	
 	mySDLWindow = SDL_CreateWindow("Tugon Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, myWindowWidthAsPixel, myWindowHeightAsPixel, windowFlags | SDL_WINDOW_BORDERLESS);
 	
