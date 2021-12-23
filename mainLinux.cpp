@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211222
+ * @date updated: 20211223
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -159,9 +159,6 @@ int iCurrentOffsetHeight;
 
 //added by Mike, 20211124
 int iNonWideScreenOffsetWidth;
-
-//added by Mike, 20211222
-int iNonWideScreenOffsetfGridSquareWidthCount;
 
 int iDestroyBugShakeDelayCount;
 int iDestroyBugShakeDelayMax;
@@ -584,10 +581,8 @@ void init() {
 			iScreenOffsetRightSide=myWindowWidthAsPixel-fGridSquareWidth*10;
 			iScreenOffsetBottomSide=myWindowHeightAsPixel-fGridSquareHeight*10;
 			
-/* //removed by Mike, 20211222			
 			myWindowHeightAsPixel=fGridSquareHeight*10;
 			myWindowWidthAsPixel=fGridSquareWidth*10;
-*/
 			
 //printf(">>>>>fGridSquareWidth: %f\n",fGridSquareWidth);
 /*
@@ -599,19 +594,12 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
   //wide screen; portrait mode;
   //example: 1366 x 768; width x height; 
   //iBaseOffsetWidth: 299; fGridSquareWidth: 76.000000
-	//edited by Mike, 20211209; edited again by Mike, 20211222
-	//TO-DO: -fix: if portrait Computer/Television Monitor screen, instead of landscape view
-  iBaseOffsetWidth=(myWindowWidthAsPixel-myWindowHeightAsPixel)/2;
-//  iBaseOffsetWidth=0;
-
+	//edited by Mike, 20211209
+//  iBaseOffsetWidth=(myWindowWidthAsPixel-myWindowHeightAsPixel)/2;
+  iBaseOffsetWidth=0;
 //  iBaseOffsetWidth=0+iScreenOffsetRightSide;
   iBaseOffsetHeight=0;
 //  iBaseOffsetHeight=0+iScreenOffsetBottomSide;
-
- //added by Mike, 20211222			
-	myWindowHeightAsPixel=fGridSquareHeight*10;
-	myWindowWidthAsPixel=fGridSquareWidth*10;
-
 
 /*	//removed by Mike, 20211129  
   //added by Mike, 20211124
@@ -629,13 +617,8 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
   	iNonWideScreenOffsetWidth=iBaseOffsetWidth*2/fGridSquareWidth;//-1;
   }
 */
-  	//edited by Mike, 20211222
-//	iNonWideScreenOffsetWidth=0;
-  	
-  	//TO-DO: -use: in text.cpp
-  	iNonWideScreenOffsetfGridSquareWidthCount=iBaseOffsetWidth*2/fGridSquareWidth;//-1;
-printf(">>iNonWideScreenOffsetfGridSquareWidthCount: %i\n",iNonWideScreenOffsetfGridSquareWidthCount);
-  
+		iNonWideScreenOffsetWidth=0;
+
   
   iCurrentOffsetWidth=iBaseOffsetWidth;
   iCurrentOffsetHeight=iBaseOffsetHeight;
