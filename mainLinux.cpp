@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211223
+ * @date updated: 20211229
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -559,6 +559,12 @@ void init() {
   fGridSquareWidth = 64;
   fGridSquareHeight = 64;
 */  
+
+/* //removed by Mike, 20211229
+	//added by Mike, 20211229
+	myWindowHeightAsPixel=720;
+	myWindowWidthAsPixel=720;
+*/	
 
   fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;  
   //edited by Mike, 20211209; edited again by Mike, 20211222

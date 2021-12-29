@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20210613
- * @date updated: 20211222
+ * @date updated: 20211229
  * @website address: http://www.usbong.ph
  *
  * Acknowledgments:
@@ -38,7 +38,10 @@
 //#define MAX_TEXT_CHAR_ROW 3
 //edited by Mike, 20210618
 //per textbox
-#define MAX_TEXT_CHAR_ROW 4 //TO-DO: -auto-identify if over MAX; execute pause write action
+//edited by Mike, 20211229
+//#define MAX_TEXT_CHAR_ROW 4 //TO-DO: -auto-identify if over MAX; execute pause write action
+#define MAX_TEXT_CHAR_ROW 3 
+
 //note: MAX rows in Random Access Memory (RAM) storage
 //reminder: "Random" need not be so, due to existing pattern; albeit "RAM" is still used
 #define MAX_TEXT_CHAR_ROW_RAM 100 //TO-DO: -auto-identify if over MAX; execute pause write action

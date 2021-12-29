@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B. 
  * @date created: 20201010
- * @date updated: 20211222
+ * @date updated: 20211229
  *
  * Acknowledgments:
  * 1) "Bulalakaw Wars" Team (2007): 
@@ -166,12 +166,27 @@ void Font::draw_char(int xInput, int yInput, int zInput, char c) {
 		//SDL_SetRenderDrawColor(mySDLRenderer, 255*1, 255*1, 255*1, 255); //white		
 		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 
+
 		//-----
 		//increase font thickness
+/* //edited by Mike, 20211229
   	DestR.x = xInput-2;
   	DestR.y = yInput-2;
-  	DestR.w = fGridSquareWidth/3/1.5+2;
-  	DestR.h = fGridSquareHeight/2/1.5+2;	
+  	DestR.w = fGridSquareWidth/3/1.5+1; //2;
+  	DestR.h = fGridSquareHeight/2/1.5+1; //2;	
+*/
+/*
+  	DestR.x = xInput - 2/3/1.5;
+  	DestR.y = yInput - 2/3/1.5;
+
+  	DestR.w = fGridSquareWidth/3/1.5 + 2/3/1.5;
+  	DestR.h = fGridSquareHeight/2/1.5 + 2/3/1.5;	
+*/
+  	DestR.x = xInput - 2/3;
+  	DestR.y = yInput - 2/3;
+
+  	DestR.w = fGridSquareWidth/3/1.5 + 2/3;
+  	DestR.h = fGridSquareHeight/2/1.5 + 2/3;	
 	
 		SDL_RenderCopy(mySDLRenderer, texture, &SrcR, &DestR);
 		//-----

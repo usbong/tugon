@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211223
+ * @date updated: 20211229
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -235,7 +235,10 @@ void Text::drawPressNextSymbol()
 		
 		//edited by Mike, 20211222	
 //  	DestR.x = 0+fMyWindowWidth/2; //getXPos();
-  	DestR.x = 0+(16+3)*fGridSquareWidth-iTileWidth*2; //getXPos();
+		//edited again by Mike, 20211229
+//  	DestR.x = 0+(16+3)*fGridSquareWidth-iTileWidth*2; //getXPos();
+  	DestR.x = 0+fMyWindowWidth/2; //getXPos();
+
   	DestR.y = fMyWindowHeight-iInputTileHeight;//*1.5; //4; //1.5; //iTileHeight;//getYPos();
 
 /*
@@ -740,7 +743,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
       //edited by Mike, 20210905
       if ((iRowCount+1)>=MAX_TEXT_CHAR_ROW) {
       		iRowCount=3;
-          iTextCurrentMaxRowCount=4;
+      		//edited by Mike, 20211229
+//          iTextCurrentMaxRowCount=4;
+          iTextCurrentMaxRowCount=3;
+
           isAtMaxTextCharRow=true;
       }
             
