@@ -702,14 +702,14 @@ void Text::drawTextBackgroundWithTexture()
 	//added by Mike, 20211218
 	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
 
-	//edited by Mike, 20211230
-//	for (int iCount=0; iCount<15; iCount++) {
-//	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
-//	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset-3; iCount++) {
-	for (int iCount=1+iTextBackgroundWidthOffset; iCount<iColumnCountMax+iTextBackgroundWidthOffset; iCount++) {
-//		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
-		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
+	int iMaxColumnCountBasedOnWidth = fMyWindowWidth/fGridSquareWidth;
 
+printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
+
+	//edited by Mike, 20211230
+//	for (int iCount=3; iCount<iMaxColumnCountBasedOnWidth-3; iCount++) {
+	for (int iCount=3; iCount<iMaxColumnCountBasedOnWidth-(iTextBackgroundWidthOffset-1); iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
 	}
 
 /*
