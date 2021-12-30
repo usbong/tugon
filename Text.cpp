@@ -715,9 +715,21 @@ printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
 	}
 	
 	//added by Mike, 20211230
-//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-(iTextBackgroundWidthOffset-1))*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
 	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-2)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, (iMaxColumnCountBasedOnWidth-2)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);	
+
+	for (int iCount=2; iCount<iMaxColumnCountBasedOnWidth-2; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+	}
+	
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_SIDE_TILE, 1*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+
+	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, (iMaxColumnCountBasedOnWidth-2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
+
+	for (int iCount=2; iCount<iMaxColumnCountBasedOnWidth-2; iCount++) {
+		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
+	}
 
 /*
 	//edited by Mike, 20211222
