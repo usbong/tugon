@@ -699,10 +699,10 @@ printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
 void Text::drawTextBackgroundWithTexture()
 {
  	//edited by Mike, 20211221; edited again by Mike, 20211222
-	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
+	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
 
 	//added by Mike, 20211218
-	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 1*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
 
 	int iMaxColumnCountBasedOnWidth = fMyWindowWidth/fGridSquareWidth;
 
@@ -710,16 +710,14 @@ printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
 
 	//edited by Mike, 20211230
 //	for (int iCount=3; iCount<iMaxColumnCountBasedOnWidth-3; iCount++) {
-//	for (int iCount=3; iCount<iMaxColumnCountBasedOnWidth-(iTextBackgroundWidthOffset-1); iCount++) {
-//	for (int iCount=2; iCount<iMaxColumnCountBasedOnWidth-(iTextBackgroundWidthOffset-2); iCount++) {
-	for (int iCount=3; iCount<iMaxColumnCountBasedOnWidth-3; iCount++) {
+	for (int iCount=2; iCount<iMaxColumnCountBasedOnWidth-2; iCount++) {
 		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
 	}
 	
 	//added by Mike, 20211230
 //	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-(iTextBackgroundWidthOffset-1))*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-(iTextBackgroundWidthOffset-2))*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
+	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (iMaxColumnCountBasedOnWidth-2)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
 
 /*
 	//edited by Mike, 20211222
@@ -824,9 +822,10 @@ for (iRowCount=0; iRowCount<iTextCurrentMaxRowCount;) {
 		//edited by Mike, 20211222
 //    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*0.2,fMyWindowHeight-fMyWindowHeight/3.5 +fGridSquareHeight/2*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
 	//edited by Mike, 20211230
-    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*1.4,fMyWindowHeight-fMyWindowHeight/4.0 +fGridSquareHeight/1.5*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-//    myFont->draw_string(x+fGridSquareWidth*1.4,fMyWindowHeight-fMyWindowHeight/4.0 +fGridSquareHeight/1.5*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
-
+	
+//    myFont->draw_string(x+fGridSquareWidth+fGridSquareWidth*1.4,fMyWindowHeight-fMyWindowHeight/4.0 +fGridSquareHeight/1.5*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
+    
+    myFont->draw_string(x+fGridSquareWidth*2,fMyWindowHeight-fMyWindowHeight/4.0 +fGridSquareHeight/1.5*iRowCount +fGridSquareHeight*0.2,0,tempText[iRowCount+iRowCountPageNumber*MAX_TEXT_CHAR_ROW]);
     
   iTextAnimationCountDelay=0;
   
