@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211229
+ * @date updated: 20211230
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -1755,6 +1755,16 @@ drawBackgroundTile(GRASS_TILE,myWindowWidthAsPixel-7*fGridSquareWidth+iNonWideSc
 //added by Mike, 20211114
 void drawGrid()
 {
+	//edited by Mike, 20211230s
+	fGridSquareWidth=64;
+	fGridSquareHeight=64;
+	
+	//note: excess pixel near "HALIMBAWA" of Font's Draw command 
+	
+	//centered; horizontal and vertical
+	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
+	iCurrentOffsetHeight=myWindowHeightAsPixel/2-fGridSquareHeight*(iRowCountMax/2);
+
   //note: SDL color max 255; GIMP color max 100
 	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1, 0, 255); //green
     
@@ -1762,13 +1772,13 @@ void drawGrid()
   //rows
   for (int iRowCount=0; iRowCount<=iRowCountMax; iRowCount++) {
 			SDL_RenderDrawLine(mySDLRenderer,
-        0+iCurrentOffsetWidth, iRowCount*fGridSquareHeight, iColumnCountMax*fGridSquareWidth+iCurrentOffsetWidth, iRowCount*fGridSquareHeight);
+        0+iCurrentOffsetWidth, iRowCount*fGridSquareHeight+iCurrentOffsetHeight, iColumnCountMax*fGridSquareWidth+iCurrentOffsetWidth, iRowCount*fGridSquareHeight+iCurrentOffsetHeight);
    }
 
   //columns
   for (int iColumnCount=0; iColumnCount<=iColumnCountMax; iColumnCount++) {
 			SDL_RenderDrawLine(mySDLRenderer,
-        iColumnCount*fGridSquareWidth+iCurrentOffsetWidth, 0, iColumnCount*fGridSquareWidth+iCurrentOffsetWidth, iRowCountMax*fGridSquareHeight);
+        iColumnCount*fGridSquareWidth+iCurrentOffsetWidth, 0+iCurrentOffsetHeight, iColumnCount*fGridSquareWidth+iCurrentOffsetWidth, iRowCountMax*fGridSquareHeight+iCurrentOffsetHeight);
    }
 }
 
@@ -1931,7 +1941,7 @@ void draw(int x, int y)
 
 	//added by Mike, 20211111
 	//note: excess drawn pixel due to drawGrid()...
-//	drawGrid();
+	drawGrid();
 
 /* //removed by Mike, 20211221
 	//added by Mike, 20211117; edited by Mike, 20211118
