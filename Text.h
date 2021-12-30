@@ -112,6 +112,8 @@ public:
 		void drawTextBackgroundWithTextureTile(int iType, int x, int y);    
     
     void drawTextBackgroundWithTexturePrev(); 
+    void drawTextBackgroundWithTextureBuggy(); //added by Mike, 20211230
+
     void drawTextBackgroundWithTextureTopLeftCorner(); 
     void drawTextBackgroundWithTextureBottomLeftCorner();
     void drawTextBackgroundWithTextureTopRightCorner();

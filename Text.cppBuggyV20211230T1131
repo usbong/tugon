@@ -37,28 +37,6 @@
 //where: INTERACTIVE: May Ugnayang Pagkilos sa nailikhang daigdig
 //Sangguninan: Dragon Quest VI; Super Family Computer
 
-//added by Mike, 20211230
-//note: max size of actual tile image pixel 64x64
-//if enlarged using only SDL Commands, without OpenGL, output incorrect
-//reminder: Variations in Computer Monitor/Television, e.g. Portrait, Landscape, Square,
-//cause incorrect output tile image positions and total count
-//prevously, attempted to set a fixed count for row and column, e.g. 10x10; 10*60 = 600; 600x600px
-//however, excess horizontal and vertical margin space for Screens 
-//with larger than 600x600, use Landscape view, et cetera
-//
-//note: Action by SONY U.S.A. to accept only applications that use 3D Technology
-//to publish on PS1 in Market caused increase in Developers 
-//of Computer Hardware/Software, e.g. Television Screens, Computer Processors, 
-//result: variations in screen size, faster processors. increase in Software that sold the Hardware
-//
-//reminder: There now exist increasing unused Hardware machines 
-//whose speed is quickly becoming slower than the newest releases
-//action: recycle such unused Hardware machines
-//TO-DO: -verify: applications that do NOT auto-resize based on Computer Monitor;
-//can use minimum size of Computer Monitor?...
-
-//TO-DO: -update: this
-
 #include <stdio.h>
 #include <math.h>
 
@@ -621,7 +599,7 @@ void Text::drawTextBackgroundWithTexturePrev()
 }
 
 //added by Mike, 20211217; edited by Mike, 20211230
-void Text::drawTextBackgroundWithTextureBuggy()
+void Text::drawTextBackgroundWithTexture()
 {
  	//edited by Mike, 20211221; edited again by Mike, 20211222
 //	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
@@ -690,71 +668,6 @@ printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
 //		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
 	}
-}
-
-
-//added by Mike, 20211217; edited by Mike, 20211230
-void Text::drawTextBackgroundWithTexture()
-{
- 	//edited by Mike, 20211221; edited again by Mike, 20211222
-	drawTextBackgroundWithTextureTile(TEXT_UP_RIGHT_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
-
-	//added by Mike, 20211218
-	drawTextBackgroundWithTextureTile(TEXT_LEFT_UP_CORNER_TILE, 2*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-
-	//edited by Mike, 20211230
-//	for (int iCount=0; iCount<15; iCount++) {
-//	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
-//	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset-3; iCount++) {
-	for (int iCount=1+iTextBackgroundWidthOffset; iCount<iColumnCountMax+iTextBackgroundWidthOffset; iCount++) {
-//		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
-		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
-
-	}
-
-/*
-	//edited by Mike, 20211222
-	//drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, fMyWindowWidth-3*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);	
-
-	drawTextBackgroundWithTextureTile(TEXT_RIGHT_DOWN_CORNER_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);	
-
-		//edited by Mike, 20211222
-//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, fMyWindowWidth-3*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-
-	//edited by Mike, 20211230
-//	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-	drawTextBackgroundWithTextureTile(TEXT_DOWN_LEFT_CORNER_TILE, (15+3-3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);	
-
-	drawTextBackgroundWithTextureTile(TEXT_LEFT_SIDE_TILE, 2*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
-		
-		//edited by Mike, 20211222
-	//note: has margin at right most due to fMyWindowWidth is trimmed
-//	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, fMyWindowWidth-3*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
-
-	drawTextBackgroundWithTextureTile(TEXT_RIGHT_SIDE_TILE, (15+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
-
-	//edited by Mike, 20211223
-//	for (int iCount=0; iCount<15; iCount++) {
-	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
-		drawTextBackgroundWithTextureTile(TEXT_TOP_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-3*fGridSquareHeight);
-	}
-
-	//edited by Mike, 20211223
-//	for (int iCount=0; iCount<15; iCount++) {
-//	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
-	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset-3; iCount++) {
-		drawTextBackgroundWithTextureTile(TEXT_BOTTOM_SIDE_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-1*fGridSquareHeight);
-	}
-
-	//edited by Mike, 20211223
-//	for (int iCount=0; iCount<15; iCount++) {
-	for (int iCount=0; iCount<11+iTextBackgroundWidthOffset; iCount++) {
-		//edited by Mike, 20211221
-//		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+2)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
-		drawTextBackgroundWithTextureTile(TEXT_CENTER_TILE, (iCount+3)*fGridSquareWidth,fMyWindowHeight-2*fGridSquareHeight);
-	}
-*/
-	
 }
 
 
