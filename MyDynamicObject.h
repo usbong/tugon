@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211112
- * @date updated: 20211223
+ * @date updated: 20211230
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -113,6 +113,10 @@ public:
     
     float fGridSquareWidth;
     float fGridSquareHeight;
+    
+    //added by Mike, 20211230
+    int iRowCountMax;
+    int iColumnCountMax;
 
 		//added by Mike, 20211218
 		//note: There exists excess if computation of width and height NOT whole number;
