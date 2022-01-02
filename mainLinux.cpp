@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20211230
+ * @date updated: 20220102; from 20211230
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -449,7 +449,14 @@ void keyUp(SDL_KeyboardEvent *event)
 					if (bIsInTitleScreen) {
 						bIsInTitleScreen=false;
 					}								
-    	}        
+    	}       
+    	
+    	//added by Mike, 20220102
+    	//TO-DO: -reverify: if NOT to add due to quickly quits application, without SAVING work
+    	//TO-DO: -add: auto-save?
+    	if (event->keysym.scancode == SDL_SCANCODE_ESCAPE) {
+			exit(0);
+		}    	 
 	}
 }
 
@@ -545,7 +552,13 @@ void init() {
   fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax; //example: 42.66
 */  
   iRowCountMax=10;
-  iColumnCountMax=iRowCountMax;//18; 
+  
+  //edited by Mike, 20220102
+//  iColumnCountMax=iRowCountMax;//18; 
+
+	//edited by Mike, 20220102
+    iColumnCountMax=iRowCountMax+4; //2;
+//  iColumnCountMax=iRowCountMax+6; //2;
   
   //note: SDL and SDL_Image use integers, i.e. whole numbers,
   //instead of floating-point numbers; result: incorrect size of fGridSquare
@@ -586,11 +599,20 @@ void init() {
 			fGridSquareHeight=(int)fGridSquareHeight+1;			
 */			
 
+/* //edited by Mike, 20220102			
 			iScreenOffsetRightSide=myWindowWidthAsPixel-fGridSquareWidth*10;
 			iScreenOffsetBottomSide=myWindowHeightAsPixel-fGridSquareHeight*10;
 			
 			myWindowHeightAsPixel=fGridSquareHeight*10;
 			myWindowWidthAsPixel=fGridSquareWidth*10;
+*/
+			iScreenOffsetBottomSide=myWindowHeightAsPixel-fGridSquareHeight*iRowCountMax;
+			iScreenOffsetRightSide=myWindowWidthAsPixel-fGridSquareWidth*iColumnCountMax;
+
+			myWindowHeightAsPixel=fGridSquareHeight*iRowCountMax;
+			myWindowWidthAsPixel=fGridSquareWidth*iColumnCountMax;
+
+
 			
 //printf(">>>>>fGridSquareWidth: %f\n",fGridSquareWidth);
 /*
@@ -1762,8 +1784,14 @@ void drawGrid()
 	//note: excess pixel near "HALIMBAWA" of Font's Draw command 
 	
 	//centered; horizontal and vertical
+ //edited by Mike, 20220102	
 	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
 	iCurrentOffsetHeight=myWindowHeightAsPixel/2-fGridSquareHeight*(iRowCountMax/2);
+
+/*
+	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(10/2);
+	iCurrentOffsetHeight=myWindowHeightAsPixel/2-fGridSquareHeight*(10/2);
+*/
 
   //note: SDL color max 255; GIMP color max 100
 	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1, 0, 255); //green
