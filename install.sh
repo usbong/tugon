@@ -9,7 +9,7 @@
 # @company: USBONG
 # @author: SYSON, MICHAEL B.
 # @date created: 20211115
-# @last updated: 20211124
+# @last updated: 20220102; 20211124
 # @website address: http://www.usbong.ph
 #
 # Additional Notes:
@@ -17,6 +17,10 @@
 # 
 
 sudo apt-get update
+
+#added by Mike, 20220102
+sudo apt-get install -y g++ 
+
 sudo apt-get install -y libsdl2-dev
 sudo apt-get install -y libsdl2-image-dev
 sudo apt-get install -y libsdl2-mixer-dev
