@@ -17,7 +17,12 @@ https://www.libsdl.org/download-2.0.php; last accessed: 20211120<br/>
 --> <b>Objective#1:</b> Reuse Image Compression instructions, e.g. loading of .png image files<br/>
 --> <b>Objective#2:</b> Reuse Audio Compression instructions, e.g. loading of .mp3 audio files  
 
-#### 2.1.1. Linux Download and Installation
+### 2.2. g++: GNU project C and C++ compiler with object linker
+--> <b>Reference:</b><br/> 
+--> Enter the following COMMAND in Terminal Window:<br/> 
+--> <b>man g++</b>
+
+### 3. Linux Download and Installation
 --> verified: with [LUBUNTU Operating System (version: LTS 20.04)](https://lubuntu.me/)<br/>
 --> Double-click to execute <b>install.sh</b> file.<br/>
 <br/>
@@ -25,7 +30,7 @@ https://www.libsdl.org/download-2.0.php; last accessed: 20211120<br/>
 <br/>
 <img src="https://github.com/masarapmabuhay/tugon/blob/main/res/linuxMachineInstallExecutableAlert.jpg" width="50%">
 
-## 3. Open Source Software License
+## 4. Open Source Software License
 Copyright 2021 SYSON, MICHAEL B.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
