@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20220102; from 20211230
+ * @date updated: 20220103
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -454,9 +454,12 @@ void keyUp(SDL_KeyboardEvent *event)
     	//added by Mike, 20220102
     	//TO-DO: -reverify: if NOT to add due to quickly quits application, without SAVING work
     	//TO-DO: -add: auto-save?
+    	//edited by Mike, 20220103
+/*   //TO-DO: -add: this 	
     	if (event->keysym.scancode == SDL_SCANCODE_ESCAPE) {
 			exit(0);
 		}    	 
+*/		
 	}
 }
 
@@ -556,9 +559,10 @@ void init() {
   //edited by Mike, 20220102
 //  iColumnCountMax=iRowCountMax;//18; 
 
-	//edited by Mike, 20220102
+	//edited by Mike, 20220102; edited again by Mike, 20220103
     iColumnCountMax=iRowCountMax+4; //2;
-//  iColumnCountMax=iRowCountMax+6; //2;
+//    iColumnCountMax=iRowCountMax+5; //total: 15; row x column; 2:3 ratio; total odd number, NOT centered
+        
   
   //note: SDL and SDL_Image use integers, i.e. whole numbers,
   //instead of floating-point numbers; result: incorrect size of fGridSquare
