@@ -1778,6 +1778,16 @@ drawBackgroundTile(GRASS_TILE,myWindowWidthAsPixel-7*fGridSquareWidth+iNonWideSc
 	
 }
 
+//added by Mike, 20220106
+void drawTameMeter()
+{
+	//note: SDL color max 255; GIMP color max 100
+	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*1, 255); //blue
+
+	//TO-DO: -update: this	
+//	SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color);
+}
+
 
 //added by Mike, 20211114
 void drawGrid()
