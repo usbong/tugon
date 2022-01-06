@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20220103
+ * @date updated: 20220106
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -519,9 +519,10 @@ void prepareScene(void)
 //	SDL_SetRenderDrawColor(mySDLRenderer, 233, 214, 146, 255); //sand
 	//edited by Mike, 20211221
 //	SDL_SetRenderDrawColor(mySDLRenderer, 255*0.318,  255*0.569, 255*0.063, 255); //grass
-		//edited by Mike, 20211222
-	SDL_SetRenderDrawColor(mySDLRenderer, 0*1.0,  0*1.0, 0*1.0, 255); //black
 //	SDL_SetRenderDrawColor(mySDLRenderer, 255*1.0,  255*0.0, 255*0.6, 255); //pink
+		//edited by Mike, 20210106
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0*1.0,  0*1.0, 0*1.0, 255); //black
+	SDL_SetRenderDrawColor(mySDLRenderer, 255*0.13,  255*0.07, 255*0.03, 255); //dark brown
 	
 	SDL_RenderClear(mySDLRenderer);
 }
