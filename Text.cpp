@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20200926
- * @date updated: 20211230
+ * @date updated: 20220107; from 20211230
  * @website address: http://www.usbong.ph
  *
  * Reference:
@@ -158,8 +158,9 @@ printf(">>> fMyWindowHeight: %f\n",fMyWindowHeight);
 		//edited by Mike, 20211230
 		//iTextBackgroundWidthOffset = (fMyWindowWidth-fMyWindowHeight)/fGridSquareWidth;
 		iTextBackgroundWidthOffset = (fMyWindowWidth-fMyWindowHeight)/64; //64 size of each square tile
-				    	   
-printf(">>>> iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);				    	   
+		
+		//removed by Mike, 20220107			    	   
+//printf(">>>> iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);				    	   
 				    	   
   	iCountAnimationFrame=0;
 //  	iCurrentKeyInput=2; //start: face RIGHT
@@ -675,7 +676,8 @@ void Text::drawTextBackgroundWithTextureBuggy()
 	}
 */	
 
-printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
+	//removed by Mike, 20220107
+//printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
 
 	for (int iCount=iColumnCountMax+iTextBackgroundWidthOffset+1; iCount>1; iCount--) {
 		//edited by Mike, 20211230
@@ -706,7 +708,8 @@ void Text::drawTextBackgroundWithTexture()
 
 	int iMaxColumnCountBasedOnWidth = fMyWindowWidth/fGridSquareWidth;
 
-printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
+//removed by Mike, 20220107
+//printf(">>>iTextBackgroundWidthOffset: %i\n",iTextBackgroundWidthOffset);
 
 	//edited by Mike, 20211230
 //	for (int iCount=3; iCount<iMaxColumnCountBasedOnWidth-3; iCount++) {

@@ -172,6 +172,10 @@ int iStepY;
 int iStepXMax;
 int iStepYMax;
 
+//added by Mike, 20220107
+int iCurrentTameMeterWidth;
+int iCurrentTameMeterHeight;
+
 //added by Mike, 20211121
 int iCountIpisDestroyed;
 
@@ -561,7 +565,7 @@ void init() {
 //  iColumnCountMax=iRowCountMax;//18; 
 
 	//edited by Mike, 20220102; edited again by Mike, 20220103
-    iColumnCountMax=iRowCountMax+4; //2;
+  iColumnCountMax=iRowCountMax+4; //2;
 //    iColumnCountMax=iRowCountMax+5; //total: 15; row x column; 2:3 ratio; total odd number, NOT centered
         
   
@@ -593,7 +597,11 @@ void init() {
   fGridSquareWidth = (myWindowWidthAsPixel)/iColumnCountMax;
 */
 	fGridSquareWidth=64;
-	fGridSquareHeight=64;
+	fGridSquareHeight=64;	
+	
+	//added by Mike, 20220107
+	iCurrentTameMeterWidth=fGridSquareWidth;
+	iCurrentTameMeterHeight=fGridSquareHeight;	
 	
 	//centered; horizontal and vertical
 	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
@@ -675,7 +683,6 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
   iCurrentOffsetWidth=iBaseOffsetWidth;
   iCurrentOffsetHeight=iBaseOffsetHeight;
 */  
-
   
   bIsExecutingDestroyBug=false;
 
@@ -1803,18 +1810,33 @@ void drawTameMeter(int x, int y)
 {
 	//note: SDL color max 255; GIMP color max 100
 //	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*1, 255); //blue
-//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*0.5, 0, 0); //green
-	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1.0, 0, 0); //green
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*0.5, 0, 0); //dark green
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1.0, 0, 0); //green
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.5, 255); //dark blue
+	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.01, 255); //darker blue; fuel; PETRON?
 
+/*	//edited by Mike, 20220107
 	int iTileWidth=64;
 	int iTileHeight=64;
+*/
+	iCurrentTameMeterWidth=iCurrentTameMeterWidth+1;
+//	iCurrentTameMeterHeight;	
+	
+	//added by Mike, 20220107
+	int iGridWidthMax = (-iCurrentOffsetWidth+iColumnCountMax*fGridSquareWidth+iCurrentOffsetWidth);
+		
+	if (iCurrentTameMeterWidth>=iGridWidthMax) {
+		iCurrentTameMeterWidth=iGridWidthMax;
+	}
 
+	printf("iGridWidthMax: %i; iCurrentTameMeterWidth: %i\n",iGridWidthMax,iCurrentTameMeterWidth);
+		
   SDL_Rect DestR;
   DestR.x = x;
   DestR.y = y;
   //note: observed: iTileWidth AND iTileHeight to be larger than fGridSquareWidth AND fGridSquareHeight
-  DestR.w = fGridSquareWidth/2; 
-  DestR.h = fGridSquareHeight/2;
+  DestR.w = iCurrentTameMeterWidth;  //fGridSquareWidth/2; 
+  DestR.h = iCurrentTameMeterHeight; //fGridSquareHeight/2;
 
   SDL_RenderFillRect(mySDLRenderer, &DestR);
   
