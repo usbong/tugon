@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20220106
+ * @date updated: 20220107
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -584,12 +584,27 @@ void init() {
 	myWindowWidthAsPixel=720;
 */	
 
+//edited by Mike, 20220107
+/*
   fGridSquareHeight = (myWindowHeightAsPixel)/iRowCountMax;  
   //edited by Mike, 20211209; edited again by Mike, 20211222
 //  fGridSquareWidth = fGridSquareHeight;
 	//auto-resize width
   fGridSquareWidth = (myWindowWidthAsPixel)/iColumnCountMax;
+*/
+	fGridSquareWidth=64;
+	fGridSquareHeight=64;
+	
+	//centered; horizontal and vertical
+	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
+	iCurrentOffsetHeight=myWindowHeightAsPixel/2-fGridSquareHeight*(iRowCountMax/2);
 
+  iBaseOffsetWidth=iCurrentOffsetWidth;
+  iBaseOffsetHeight=iCurrentOffsetHeight;
+
+	printf(">>iCurrentOffsetWidth: %i\n",iCurrentOffsetWidth);
+	
+	
   
 //-----
 	printf(">>fGridSquareWidth: %f\n",fGridSquareWidth);
@@ -630,11 +645,13 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
   //example: 1366 x 768; width x height; 
   //iBaseOffsetWidth: 299; fGridSquareWidth: 76.000000
 	//edited by Mike, 20211209
+/* //removed by Mike, 20220107
 //  iBaseOffsetWidth=(myWindowWidthAsPixel-myWindowHeightAsPixel)/2;
   iBaseOffsetWidth=0;
 //  iBaseOffsetWidth=0+iScreenOffsetRightSide;
   iBaseOffsetHeight=0;
 //  iBaseOffsetHeight=0+iScreenOffsetBottomSide;
+*/
 
 /*	//removed by Mike, 20211129  
   //added by Mike, 20211124
@@ -653,10 +670,13 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
   }
 */
 		iNonWideScreenOffsetWidth=0;
-
-  
+/*
+  //edited by Mike, 20220107  
   iCurrentOffsetWidth=iBaseOffsetWidth;
   iCurrentOffsetHeight=iBaseOffsetHeight;
+*/  
+
+  
   bIsExecutingDestroyBug=false;
 
 	iDestroyBugShakeDelayCount=0;
@@ -1778,14 +1798,26 @@ drawBackgroundTile(GRASS_TILE,myWindowWidthAsPixel-7*fGridSquareWidth+iNonWideSc
 	
 }
 
-//added by Mike, 20220106
-void drawTameMeter()
+//added by Mike, 20220106; edited by Mike, 20220107
+void drawTameMeter(int x, int y)
 {
 	//note: SDL color max 255; GIMP color max 100
-	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*1, 255); //blue
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*1, 255); //blue
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*0.5, 0, 0); //green
+	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1.0, 0, 0); //green
 
-	//TO-DO: -update: this	
-//	SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color);
+	int iTileWidth=64;
+	int iTileHeight=64;
+
+  SDL_Rect DestR;
+  DestR.x = x;
+  DestR.y = y;
+  //note: observed: iTileWidth AND iTileHeight to be larger than fGridSquareWidth AND fGridSquareHeight
+  DestR.w = fGridSquareWidth/2; 
+  DestR.h = fGridSquareHeight/2;
+
+  SDL_RenderFillRect(mySDLRenderer, &DestR);
+  
 }
 
 
@@ -1798,10 +1830,12 @@ void drawGrid()
 	
 	//note: excess pixel near "HALIMBAWA" of Font's Draw command 
 	
+/* //removed by Mike, 20220107	
 	//centered; horizontal and vertical
  //edited by Mike, 20220102	
 	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
 	iCurrentOffsetHeight=myWindowHeightAsPixel/2-fGridSquareHeight*(iRowCountMax/2);
+*/
 
 /*
 	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(10/2);
@@ -2228,6 +2262,7 @@ void update() {
 		}		
 
 		
+/* //removed by Mike, 20220107; TO-DO: -add: during ACTIVE BATTLE SCENARIO		
 			if (bIsExecutingDestroyBug) {
   				iCurrentOffsetWidth+=2;
 				iCurrentOffsetHeight-=2;			
@@ -2274,27 +2309,9 @@ void update() {
 			}		
 			else {
   				iCurrentOffsetWidth=iBaseOffsetWidth;
-				iCurrentOffsetHeight=iBaseOffsetHeight;				
+					iCurrentOffsetHeight=iBaseOffsetHeight;				
 			}
-
-/* //removed by Mike, 20211121			
-			//added by Mike, 20211118
-    	for (int iCount=0; iCount<MAX_IPIS; iCount++) {
-    		myIpis[iCount]->update();
-    		    		
-    		//added by Mike, 20211120
-    		if (myIpis[iCount]->isHiddenState()) {
-//    				myIpis[iCount]->reset(myIpis[iCount]->getXPos(),myIpis[iCount]->getYPos());
-				myIpis[iCount]->executeRegenerate();
-						
-				//after 1 loop based on destroyed ipis start index, increase speed
-				if (iCount==IPIS_START_INDEX) {
-					iStepX=2;
-					iStepY=2;
-				}
-    		}
-		}						
-*/		
+*/
 }
 
 int main(int argc, char *argv[])
@@ -2377,14 +2394,29 @@ int main(int argc, char *argv[])
 //		draw(texture, iPilotX, iPilotY);
 		draw(iPilotX, iPilotY);
 		
+		//added by Mike, 20220107
+//		drawTameMeter(0,0);
+/*		drawTameMeter(myWindowWidthAsPixel/2-fGridSquareWidth/2/2,
+									myWindowHeightAsPixel-fGridSquareHeight/2);
+*/	
+/*		drawTameMeter(myWindowWidthAsPixel/2-fGridSquareWidth/2/2+iCurrentOffsetWidth,
+									myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);
+*/									
+		  drawTameMeter(0+iCurrentOffsetWidth,
+									  myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);
+		
+		
 		if (bIsInTitleScreen) {	
-			drawTitleNote(myWindowWidthAsPixel/2-2*fGridSquareWidth-fGridSquareWidth/2, myWindowHeightAsPixel/2-2*fGridSquareHeight);
+			drawTitleNote(myWindowWidthAsPixel/2-2*fGridSquareWidth-fGridSquareWidth/2+iCurrentOffsetWidth,
+									  myWindowHeightAsPixel/2-2*fGridSquareHeight+iCurrentOffsetHeight);
 			
-			drawTitleNotePart2(myWindowWidthAsPixel/2-1*fGridSquareWidth-fGridSquareWidth/2, myWindowHeightAsPixel/2-1*fGridSquareHeight+fGridSquareHeight/4);
+			drawTitleNotePart2(myWindowWidthAsPixel/2-1*fGridSquareWidth-fGridSquareWidth/2+iCurrentOffsetWidth, 
+												 myWindowHeightAsPixel/2-1*fGridSquareHeight+fGridSquareHeight/4+iCurrentOffsetHeight);
 			
 //			if ((iPressKCount)%4==0) {
 			if (iPressKCount<10) {//5) {
-				drawPressK(myWindowWidthAsPixel/2-1*fGridSquareWidth-fGridSquareWidth/2, myWindowHeightAsPixel/2+3*fGridSquareHeight);
+				drawPressK(myWindowWidthAsPixel/2-1*fGridSquareWidth-fGridSquareWidth/2+iCurrentOffsetWidth, 
+									 myWindowHeightAsPixel/2+3*fGridSquareHeight+iCurrentOffsetHeight);
 			}
 			else {
 				if (iPressKCount>20) {//10) {
@@ -2415,7 +2447,7 @@ int main(int argc, char *argv[])
 				//added by Mike, 20211126				
 //				printf(">>iWaitCountBeforeExitOK: %i\n",iWaitCountBeforeExitOK);
 				
-			drawMissionCompleteNote(myWindowWidthAsPixel/2-2*fGridSquareWidth-fGridSquareWidth/2, myWindowHeightAsPixel/2-3*fGridSquareHeight);
+			drawMissionCompleteNote(myWindowWidthAsPixel/2-2*fGridSquareWidth-fGridSquareWidth/2+iCurrentOffsetWidth, 																myWindowHeightAsPixel/2-3*fGridSquareHeight+iCurrentOffsetHeight);
 			
 			//added by Mike, 20211129
 			drawDestroyedIpisCountAsSet(1);
@@ -2428,7 +2460,8 @@ int main(int argc, char *argv[])
 			if (iWaitCountBeforeExitOK>=iWaitCountBeforeExitOKMax) {
 				//			if ((iPressKCount)%4==0) {
 				if (iPressKCount<10) {//5) {
-					drawPressK(myWindowWidthAsPixel/2-1*fGridSquareWidth-fGridSquareWidth/2, myWindowHeightAsPixel-1*fGridSquareHeight);
+					drawPressK(myWindowWidthAsPixel/2-1*fGridSquareWidth-fGridSquareWidth/2+iCurrentOffsetWidth, 		
+										 myWindowHeightAsPixel-1*fGridSquareHeight+iCurrentOffsetHeight);
 				}
 				else {
 					if (iPressKCount>20) {//10) {
@@ -2441,7 +2474,7 @@ int main(int argc, char *argv[])
 		}
 		
 		presentScene();
-
+		
 		//TO-DO: add: auto-identify delay input count
 		SDL_Delay(8);
 	}
