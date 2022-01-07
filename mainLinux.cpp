@@ -118,6 +118,9 @@
 //added by Mike, 20211121
 #define IPIS_START_INDEX 0
 
+//added by Mike, 20220107
+#define MAX_TAME_METER 2
+
 //added by Mike, 20211213
 class Font; 
 //added by Mike, 20211214
@@ -172,9 +175,15 @@ int iStepY;
 int iStepXMax;
 int iStepYMax;
 
-//added by Mike, 20220107
+//added by Mike, 20220107; edited by Mike, 20220107
+/*
 int iCurrentTameMeterWidth;
 int iCurrentTameMeterHeight;
+int iCurrentTameMeterWidthStepX;
+*/
+int iCurrentTameMeterWidth[MAX_TAME_METER];
+int iCurrentTameMeterHeight[MAX_TAME_METER];
+int iCurrentTameMeterWidthStepX[MAX_TAME_METER];
 
 //added by Mike, 20211121
 int iCountIpisDestroyed;
@@ -599,9 +608,18 @@ void init() {
 	fGridSquareWidth=64;
 	fGridSquareHeight=64;	
 	
-	//added by Mike, 20220107
+	//added by Mike, 20220107; edited by Mike, 20220107
+/*	
 	iCurrentTameMeterWidth=fGridSquareWidth;
-	iCurrentTameMeterHeight=fGridSquareHeight;	
+	iCurrentTameMeterHeight=fGridSquareHeight;		
+	iCurrentTameMeterWidthStepX=1;
+*/
+	for (int iCount=0; iCount<MAX_TAME_METER; iCount++) {
+		//edited by Mike, 20220107
+		iCurrentTameMeterWidth[iCount] = 0; //fGridSquareWidth;
+		iCurrentTameMeterHeight[iCount] = fGridSquareHeight;		
+		iCurrentTameMeterWidthStepX[iCount] = 1;
+	}
 	
 	//centered; horizontal and vertical
 	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
@@ -1806,42 +1824,93 @@ drawBackgroundTile(GRASS_TILE,myWindowWidthAsPixel-7*fGridSquareWidth+iNonWideSc
 }
 
 //added by Mike, 20220106; edited by Mike, 20220107
-void drawTameMeter(int x, int y)
+//void drawTameMeter(int x, int y)
+void drawTameMeter(int iLevel, int x, int y)
 {
+
 	//note: SDL color max 255; GIMP color max 100
 //	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*1, 255); //blue
 //	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*0.5, 0, 0); //dark green
 //	SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1.0, 0, 0); //green
 //	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.5, 255); //dark blue
-	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.01, 255); //darker blue; fuel; PETRON?
+	//edited by Mike, 20220107
+//	SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.01, 255); //darker blue; fuel; PETRON?
 
+/* //removed by Mike, 20220107
+	if (iLevel==0) {
+		SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.01, 255); //darker blue; fuel; PETRON?
+	}
+	else {	
+		printf(">>>> iLevel: %i\n",iLevel);	
+//		SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.01*iLevel, 255); //brighter blue
+		SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1.0, 0, 0); //green
+	}
+*/
+	
 /*	//edited by Mike, 20220107
 	int iTileWidth=64;
 	int iTileHeight=64;
 */
-	iCurrentTameMeterWidth=iCurrentTameMeterWidth+1;
-//	iCurrentTameMeterHeight;	
+	//edited by Mike, 20220107
+	//note: fuel meter at station does NOT execute acceleration during addition to vehicle storage
+//	iCurrentTameMeterWidth=iCurrentTameMeterWidth+1;
+//	iCurrentTameMeterWidth=iCurrentTameMeterWidth+2;
+
+	//acceleration
+	if (iCurrentTameMeterWidthStepX[iLevel]%2==0) {
+		iCurrentTameMeterWidth[iLevel]=iCurrentTameMeterWidth[iLevel]+iCurrentTameMeterWidthStepX[iLevel];
+	}
 	
 	//added by Mike, 20220107
 	int iGridWidthMax = (-iCurrentOffsetWidth+iColumnCountMax*fGridSquareWidth+iCurrentOffsetWidth);
 		
-	if (iCurrentTameMeterWidth>=iGridWidthMax) {
-		iCurrentTameMeterWidth=iGridWidthMax;
+	if (iCurrentTameMeterWidth[iLevel]>=iGridWidthMax) {
+		iCurrentTameMeterWidth[iLevel]=iGridWidthMax;
+		
+		iLevel=iLevel+1;
+		
+		if (iLevel<MAX_TAME_METER) {
+			drawTameMeter(iLevel, x, y);
+		}
+		printf("iGridWidthMax: %i; iCurrentTameMeterWidth: %i\n",iGridWidthMax,iCurrentTameMeterWidth[iLevel]);
+	}
+	//if NOT yet @MAX
+	else {
+		iCurrentTameMeterWidthStepX[iLevel]=iCurrentTameMeterWidthStepX[iLevel]+1;
 	}
 
-	printf("iGridWidthMax: %i; iCurrentTameMeterWidth: %i\n",iGridWidthMax,iCurrentTameMeterWidth);
+	//TO-DO: -add: next overlapping row as level
+
+//	printf("iGridWidthMax: %i; iCurrentTameMeterWidth: %i\n",iGridWidthMax,iCurrentTameMeterWidth[iLevel]);
 		
+/* //edited by Mike, 20220107		
   SDL_Rect DestR;
   DestR.x = x;
   DestR.y = y;
   //note: observed: iTileWidth AND iTileHeight to be larger than fGridSquareWidth AND fGridSquareHeight
-  DestR.w = iCurrentTameMeterWidth;  //fGridSquareWidth/2; 
-  DestR.h = iCurrentTameMeterHeight; //fGridSquareHeight/2;
+  DestR.w = iCurrentTameMeterWidth[iLevel];  //fGridSquareWidth/2; 
+  DestR.h = iCurrentTameMeterHeight[iLevel]; //fGridSquareHeight/2;
 
   SDL_RenderFillRect(mySDLRenderer, &DestR);
-  
-}
+*/
+	for (int iCount=0; iCount<MAX_TAME_METER; iCount++) {
+		if (iCount==0) {
+			SDL_SetRenderDrawColor(mySDLRenderer, 0, 0, 255*0.01, 255); //darker blue; fuel; PETRON?
+		}
+		else {	
+			SDL_SetRenderDrawColor(mySDLRenderer, 0, 255*1.0, 0, 0); //green
+		}
 
+  	SDL_Rect DestR;
+  	DestR.x = x;
+  	DestR.y = y;
+  	//note: observed: iTileWidth AND iTileHeight to be larger than fGridSquareWidth AND fGridSquareHeight
+  	DestR.w = iCurrentTameMeterWidth[iCount];  //fGridSquareWidth/2; 
+  	DestR.h = iCurrentTameMeterHeight[iCount]; //fGridSquareHeight/2;
+	
+  	SDL_RenderFillRect(mySDLRenderer, &DestR);	
+	}
+}
 
 //added by Mike, 20211114
 void drawGrid()
@@ -2424,7 +2493,7 @@ int main(int argc, char *argv[])
 /*		drawTameMeter(myWindowWidthAsPixel/2-fGridSquareWidth/2/2+iCurrentOffsetWidth,
 									myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);
 */									
-		  drawTameMeter(0+iCurrentOffsetWidth,
+		  drawTameMeter(0, 0+iCurrentOffsetWidth,
 									  myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);
 		
 		
