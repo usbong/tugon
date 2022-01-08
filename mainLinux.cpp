@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20220107
+ * @date updated: 20220108
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -360,7 +360,6 @@ void keyDown(SDL_KeyboardEvent *event)
 {
 	if (event->repeat == 0)
 	{
-/* //removed by Mike, 20211120	
 		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
 			myKeysDown[KEY_W] = TRUE;		
@@ -380,7 +379,6 @@ void keyDown(SDL_KeyboardEvent *event)
 		{
 			myKeysDown[KEY_D] = TRUE;					
 		}
-*/		
 
     //note: one button press only; beat, cadence; skipping stone?
     
@@ -424,7 +422,6 @@ void keyUp(SDL_KeyboardEvent *event)
 {
 	if (event->repeat == 0)
 	{
-/*	//removed by Mike, 20211120
 		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
 			myKeysDown[KEY_W] = FALSE;		
@@ -444,7 +441,6 @@ void keyUp(SDL_KeyboardEvent *event)
 		{
 			myKeysDown[KEY_D] = FALSE;					
 		}
-*/
 
     //note: one button press only; beat, cadence; skipping stone?
         
@@ -749,11 +745,13 @@ printf(">>>>>iScreenOffsetRightSide: %i\n",iScreenOffsetRightSide);
   	iWaitCountBeforeExitOK=0;
   	iWaitCountBeforeExitOKMax=1000; //edited by Mike, 20211129
   
-  
-  for (int iCount=0; iCount<4; iCount++) { //directional keys only
+	//edited by Mike, 20220108
+//  for (int iCount=0; iCount<4; iCount++) { //directional keys only
+  for (int iCount=0; iCount<iNumOfKeyTypes; iCount++) { //directional keys only
 		myKeysDown[iCount]=FALSE;
 	}		
-	myKeysDown[KEY_D] = TRUE;  	
+	//removed by Mike, 20220108
+//	myKeysDown[KEY_D] = TRUE;  	
 
 		int myLevelWeakBeat[MAX_IPIS] = {1,0,1,0,1,0, //RIGHT
 																		 1,1,0,1,1, //DOWN; corner included
@@ -2111,6 +2109,9 @@ void draw(int x, int y)
 	//note: excess drawn pixel due to drawGrid()...
 	drawGrid();
 
+	//added by Mike, 20220108
+	myUnit->draw();
+
 /* //removed by Mike, 20211221
 	//added by Mike, 20211117; edited by Mike, 20211118
 //	myIpis[0]->draw();
@@ -2178,7 +2179,7 @@ void draw(int x, int y)
 	
 }
 
-void update() {
+void updateAutomotiveInCircuit() {
 		//added by Mike, 20211126
 		if (iNonWideScreenOffsetWidth==0) {
 		}
@@ -2403,6 +2404,55 @@ void update() {
 					iCurrentOffsetHeight=iBaseOffsetHeight;				
 			}
 */
+}
+
+//added by Mike, 20220108
+void update() {
+	 
+
+		//added by Mike, 20211126
+		if (iNonWideScreenOffsetWidth==0) {
+		}
+		else {
+			bHasAnimatedWaterTile=false;
+		}
+
+/*
+					iStepX=2;
+					iStepY=2;
+*/
+
+		if (myKeysDown[KEY_D] == TRUE) {
+//				myKeysDown[KEY_D] = TRUE;
+				iPilotX+=iStepX;
+		}
+	
+		if (myKeysDown[KEY_S] == TRUE) {
+//				myKeysDown[KEY_S] = TRUE;
+				iPilotY+=iStepY;
+		}
+				
+		if (myKeysDown[KEY_A] == TRUE) {		
+//				myKeysDown[KEY_A] = TRUE;
+				iPilotX-=iStepX;
+		}
+
+		if (myKeysDown[KEY_W] == TRUE) {		
+//				myKeysDown[KEY_W] = TRUE;
+				iPilotY-=iStepY;
+		}
+
+		
+		for (int iCount=0; iCount<4; iCount++) { //directional keys only
+			if (myKeysDown[iCount]==TRUE) {
+				myUnit->setXPosAsPixel(iPilotX);
+				myUnit->setYPosAsPixel(iPilotY);
+						
+				myUnit->move(iCount);
+				break;
+			}
+		}		
+
 }
 
 int main(int argc, char *argv[])
