@@ -15,7 +15,7 @@
  * @company: USBONG
  * @author: SYSON, MICHAEL B.
  * @date created: 20211111
- * @date updated: 20220108
+ * @date updated: 20220114
  * @website address: http://www.usbong.ph
  *
  * Notes:
@@ -51,6 +51,13 @@
 //TO-DO: -add: deallocate memory instructions when executing quit, et cetera
 //note: LINUX auto-deallocates when executing quit
 
+//added by Mike, 20220114
+//note: press and hold "K" to execute tame; 
+//TO-DO: -verify: networked multiplayer; multiple computers, instead of only one shared (1) computer monitor 
+//TO-DO: -verify: use of MAP as with Zelda DX/Game&Watch, Final Fantasy Adventure, 
+//instead of vertical, horizontal scrolling; faster to identify positions?
+//Unit members CAN go whichever direction; however, for select battles, effective if ALL in the same MAP position; For another set of battles, each Unit member destroys Monster/Dragon? parts 
+//due to bigger than one MAP position...
 
 /**************************
  * Includes
@@ -353,6 +360,16 @@ void executeTimerCount() {
 */	
 }
 
+//added by Mike, 20220114
+void resetTameMeterWidth() {
+	for (int iCount=0; iCount<MAX_TAME_METER; iCount++) {
+		//edited by Mike, 20220107
+		iCurrentTameMeterWidth[iCount] = 0; //fGridSquareWidth;
+		iCurrentTameMeterHeight[iCount] = fGridSquareHeight;		
+		iCurrentTameMeterWidthStepX[iCount] = 1;
+	}
+}
+
 //note: super family computer controller with button colors, 
 //OK with children in learning color's name identification
 //additional note: SNK's arcade buttons also use colors
@@ -449,7 +466,9 @@ void keyUp(SDL_KeyboardEvent *event)
     	{
     			//added by Mike, 20211215
 					myText->keyUp(KEY_K);
-    		
+					
+					//added by Mike, 20220114
+					resetTameMeterWidth();    		
     	
         	myKeysDown[KEY_K] = FALSE;
         	bIsExecutingDestroyBug=false;
@@ -610,12 +629,16 @@ void init() {
 	iCurrentTameMeterHeight=fGridSquareHeight;		
 	iCurrentTameMeterWidthStepX=1;
 */
+
+/* //edited by Mike, 20220114
 	for (int iCount=0; iCount<MAX_TAME_METER; iCount++) {
 		//edited by Mike, 20220107
 		iCurrentTameMeterWidth[iCount] = 0; //fGridSquareWidth;
 		iCurrentTameMeterHeight[iCount] = fGridSquareHeight;		
 		iCurrentTameMeterWidthStepX[iCount] = 1;
 	}
+*/
+	resetTameMeterWidth();
 	
 	//centered; horizontal and vertical
 	iCurrentOffsetWidth=myWindowWidthAsPixel/2-fGridSquareWidth*(iColumnCountMax/2);
@@ -2170,7 +2193,13 @@ void draw(int x, int y)
 	drawTimeCountAsSet(0);
 	
 */	
-	
+
+	//added by Mike, 20220114
+	if (myKeysDown[KEY_K]) {
+		drawTameMeter(0, 0+iCurrentOffsetWidth,
+										myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);	
+	}
+
 	//added by Mike, 20211213
 	myFont->draw_string(0,0,0,(char*)"HALIMBAWA"); //note: all capital letters; no small letters yet
 
@@ -2543,9 +2572,11 @@ int main(int argc, char *argv[])
 /*		drawTameMeter(myWindowWidthAsPixel/2-fGridSquareWidth/2/2+iCurrentOffsetWidth,
 									myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);
 */									
+
+/* //removed by Mike, 20220114
 		  drawTameMeter(0, 0+iCurrentOffsetWidth,
 									  myWindowHeightAsPixel+fGridSquareHeight/4+iCurrentOffsetHeight);
-		
+*/		
 		
 		if (bIsInTitleScreen) {	
 			drawTitleNote(myWindowWidthAsPixel/2-2*fGridSquareWidth-fGridSquareWidth/2+iCurrentOffsetWidth,
