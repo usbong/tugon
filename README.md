@@ -2,8 +2,12 @@
 <b>Objectives:</b><br/> 
 1. Continue to increase know-how to build Electronic Book Readers with Human-Computer Interactivity<br/>
 2. Reuse component parts<br/>
-<br/>
-<b>Reference:</b> https://github.com/masarapmabuhay/tugon
+
+<b>Reference#1:</b> https://github.com/masarapmabuhay/tugon
+
+<b>Reference#2:</b> Mario Kart (Super Family Computer)<br/>
+2.1) [Mario Kart CUP Selection Menu Page](http://store.usbong.ph/assets/images/videos/tugon/referenceMarioKartSFCNoteTugonPlus20220719T1947.mp4)<br/>
+2.2) [Karts in ROW](http://store.usbong.ph/assets/images/videos/tugon/referenceMarioKartSFCNoteKartsInROW,TugonPlus20220719T1952.mp4)
 
 ## 1. Application Execution
 --> verified: with [LUBUNTU Operating System (version: LTS 20.04)](https://lubuntu.me/)<br/>
@@ -31,7 +35,7 @@ https://www.libsdl.org/download-2.0.php; last accessed: 20211120<br/>
 <img src="https://github.com/masarapmabuhay/tugon/blob/main/res/linuxMachineInstallExecutableAlert.jpg" width="50%">
 
 ## 4. Open Source Software License
-Copyright 2021 SYSON, MICHAEL B.
+Copyright 2021~2022 SYSON, MICHAEL B.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
